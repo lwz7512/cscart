@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<addon scheme="2.0">
+	<id>trip_build</id>
+	<name>Trip Page</name>
+	<description>trip product add</description>
+	<version>1.0</version>
+	<priority>100505</priority>
+	<status>active</status>
+    <has_icon>Y</has_icon>
+    <default_language>en</default_language>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <translations>
+        <item for="name" lang="zh">旅游配置</item>
+        <item for="description" lang="zh">添加旅游属性到产品</item>
+    </translations>
+    <language_variables>
+        <item lang="en" id="trip_build_characters">Trip Page Features</item>
+        <item lang="zh" id="trip_build_characters">旅游产品特色</item>
+        <item lang="en" id="trip_build_must_known">Trip Page Must Known</item>
+        <item lang="zh" id="trip_build_must_known">旅游须知</item>
+        <item lang="en" id="trip_build_notes">Trip Page Notes</item>
+        <item lang="zh" id="trip_build_notes">旅游注意事项</item>
+    </language_variables>
+</addon>
