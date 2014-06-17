@@ -36,6 +36,9 @@ function fn_trip_build_dispatch_before_display()
  */
 function fn_trip_build_update_product_post($product_data, $product_id, $lang_code, $can_update)
 {
+
+    if(empty($product_data['address'])) return true;
+
     $trip_obj = array(
         'product_id' => $product_id,
         'vendor_id' => $product_data['company_id'],
@@ -52,9 +55,9 @@ function fn_trip_build_update_product_post($product_data, $product_id, $lang_cod
     );
     $result = db_query("REPLACE INTO ?:product_trip ?e", $trip_obj);
     if($result){
-        PC::debug('trip product insert success!', 'trip_build');
+//        PC::debug('trip product insert success!', 'trip_build');
     } else {
-        PC::debug('trip product insert failure!', 'trip_build');
+//        PC::debug('trip product insert failure!', 'trip_build');
     }
 
     return true;
@@ -81,6 +84,22 @@ function fn_trip_build_get_product_data_post(&$product_data, $auth, $preview, $l
             'must_known' => $trip_data['product_mustknown'],
             'address' => $trip_data['address'],
         );
+    }
+
+    return true;
+}
+
+/**
+ * delete trip record while delete product
+ *
+ * @param $product_id
+ * @param $product_deleted
+ * @return bool
+ */
+function fn_trip_build_delete_product_post($product_id, $product_deleted)
+{
+    if($product_deleted){
+        db_query("DELETE FROM ?:product_trip WHERE product_id = ?i", $product_id);
     }
 
     return true;
