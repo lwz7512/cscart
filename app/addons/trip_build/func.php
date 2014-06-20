@@ -15,6 +15,7 @@
 if ( !defined('AREA') ) { die('Access denied'); }
 
 use Tygh\Registry;
+use Tygh\Logger;
 
 /**
  * process redundant tab in page: products.update
@@ -103,4 +104,97 @@ function fn_trip_build_delete_product_post($product_id, $product_deleted)
     }
 
     return true;
+}
+
+/**
+ * detect $cart value
+ *
+ * @param $cart
+ */
+function fn_trip_build_pre_place_order($cart)
+{
+    trip_build_trace('-------'.basename(__FILE__, '.php').':'.__FUNCTION__.':'.__LINE__.'-------');
+//    foreach($cart as $k=>$v){
+//        trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
+//        if(gettype($v) == 'array'){
+//            trip_build_trace('array-length:'.count($v));//view length
+//            foreach($v as $sub_k=>$sub_v){
+//                if(gettype($sub_v) == 'array'){
+//                    trip_build_trace('---->'.$sub_k.':'.gettype($sub_v));
+//                }else{
+//                    trip_build_trace('---->'.$sub_k.':'.$sub_v);
+//                }
+//            }
+//        }
+//    }
+
+    return true;
+}
+
+/**
+ * detect product data added to cart
+ *
+ * @param $product_data
+ * @param $cart
+ * @param $auth
+ * @param $update
+ * @return bool
+ */
+function fn_trip_build_pre_add_to_cart($product_data, $cart, $auth, $update)
+{
+    trip_build_trace('<======='.basename(__FILE__, '.php').':'.__FUNCTION__.':'.__LINE__.'========>');
+
+    trip_build_trace('--------dump $product_data-----------');
+//    foreach($product_data as $k=>$v){
+//        trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
+//        if(gettype($v) == 'array'){
+//            trip_build_trace('array-length:'.count($v));//view length
+//            foreach($v as $sub_k=>$sub_v){
+//                if(gettype($sub_v) == 'array'){
+//                    trip_build_trace('---->'.$sub_k.':'.gettype($sub_v));
+//                }else{
+//                    trip_build_trace('---->'.$sub_k.':'.$sub_v);
+//                }
+//            }
+//        }
+//    }
+
+    trip_build_trace('--------dump $cart-----------');
+//    foreach($cart as $k=>$v){
+//        trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
+//        if(gettype($v) == 'array'){
+//            trip_build_trace('array-length:'.count($v));//view length
+//            foreach($v as $sub_k=>$sub_v){
+//                if(gettype($sub_v) == 'array'){
+//                    trip_build_trace('---->'.$sub_k.':'.gettype($sub_v));
+//                }else{
+//                    trip_build_trace('---->'.$sub_k.':'.$sub_v);
+//                }
+//            }
+//        }
+//    }
+
+    return true;
+}
+
+
+/**
+ * product added to cart
+ *
+ * @param $product_data
+ * @param $cart
+ * @param $auth
+ * @param $update
+ */
+function fn_trip_build_post_add_to_cart($product_data, $cart, $auth, $update)
+{
+    trip_build_trace('>>> product added to cart!');
+}
+
+
+function trip_build_trace($msg)
+{
+//    $logger = Logger::instance();
+//    $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/running.log';
+//    $logger->write($msg);
 }

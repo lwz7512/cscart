@@ -15,9 +15,9 @@ class Auth extends \Tygh\Api\Entities\Auth {
 
     public function create($params){
 
-        if(!isset($params['email']) || !isset($params['password'])){
-            $result = 0;
-        }
+        $user_id = '';
+        $result = 0;
+
 
         if(isset($params['email'])){
             $email = $params['email'];
@@ -29,10 +29,24 @@ class Auth extends \Tygh\Api\Entities\Auth {
 
         if(!empty($email) && !empty($password)){
             $user_data = db_get_row("SELECT * FROM ?:users WHERE email = ?s", $email);
-            $salt = $user_data['salt'];
 
-            if(fn_generate_salted_password($password, $salt) == $user_data['password']){
+            if(empty($user_data)){//no user found
+                return array(
+                    'status' => Response::STATUS_OK,
+                    'data' => array(
+                        'result' => $result,
+                        'user_id' => $user_id
+                    )
+                );
+            }
+
+
+            $salt = $user_data['salt'];
+            //password validate
+            $valid = (fn_generate_salted_password($password, $salt) == $user_data['password']);
+            if(!empty($user_data) && $valid){
                 $result = 1;
+                $user_id = $user_data['user_id'];
             }else{
                 $result = 0;
             }
@@ -41,7 +55,8 @@ class Auth extends \Tygh\Api\Entities\Auth {
         return array(
             'status' => Response::STATUS_OK,
             'data' => array(
-                'result' => $result
+                'result' => $result,
+                'user_id' => $user_id
             )
         );
 
