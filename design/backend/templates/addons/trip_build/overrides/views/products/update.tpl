@@ -398,8 +398,23 @@
             </div> {* /content images *}
             {** /Product images section **}
 
+            {** Shipping settings section **}
+            <div id="content_shippings" class="hidden"> {* content shippings *}
+                {include file="views/products/components/products_shipping_settings.tpl"}
+            </div> {* /content shippings *}
+            {** /Shipping settings section **}
 
-            <div id="content_addons">
+            {** Quantity discounts section **}
+            {hook name="products:update_qty_discounts"}
+                {include file="views/products/components/products_update_qty_discounts.tpl"}
+            {/hook}
+            {** /Quantity discounts section **}
+            {** Product features section **}
+            {include file="views/products/components/products_update_features.tpl"}
+            {** /Product features section **}
+
+
+        <div id="content_addons">
                 {hook name="products:detailed_content"}{/hook}
             </div>
 

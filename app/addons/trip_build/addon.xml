@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <addon scheme="2.0">
 	<id>trip_build</id>
-	<name>Trip Page</name>
+	<name>Trip Build</name>
 	<description>trip product add</description>
 	<version>1.0</version>
 	<priority>100505</priority>

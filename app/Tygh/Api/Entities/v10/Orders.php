@@ -21,6 +21,11 @@ class Orders extends \Tygh\Api\Entities\Orders
 {
     public function index($id = 0, $params = array())
     {
+        foreach($params as $k=>$v){
+            trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
+        }
+
+
         if (!$id && !isset($params['items_per_page'])) {
             $params['items_per_page'] = 0;
         }

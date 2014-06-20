@@ -33,7 +33,7 @@ if($mode == 'add') {
     Registry::del('navigation.tabs.shippings');
     Registry::del('navigation.tabs.files');
     Registry::del('navigation.tabs.subscribers');
-    Registry::del('navigation.tabs.features');
+//    Registry::del('navigation.tabs.features');
     Registry::del('navigation.tabs.product_tabs');
 
 }

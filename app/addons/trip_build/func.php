@@ -194,7 +194,7 @@ function fn_trip_build_post_add_to_cart($product_data, $cart, $auth, $update)
 
 function trip_build_trace($msg)
 {
-//    $logger = Logger::instance();
-//    $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/running.log';
-//    $logger->write($msg);
+    $logger = Logger::instance();
+    $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/running.log';
+    $logger->write($msg);
 }
