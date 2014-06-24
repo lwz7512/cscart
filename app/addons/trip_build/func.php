@@ -188,7 +188,7 @@ function fn_trip_build_pre_add_to_cart($product_data, $cart, $auth, $update)
  */
 function fn_trip_build_post_add_to_cart($product_data, $cart, $auth, $update)
 {
-    trip_build_trace('>>> product added to cart!');
+    trip_build_trace('>>> trip_build: product added to cart!');
 }
 
 

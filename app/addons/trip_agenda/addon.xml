@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<addon scheme="2.0">
+    <id>trip_agenda</id>
+    <name>Trip Agenda</name>
+    <description>trip agenda add</description>
+    <version>1.0</version>
+    <priority>100506</priority>
+    <status>active</status>
+    <has_icon>Y</has_icon>
+    <default_language>en</default_language>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <translations>
+        <item for="name" lang="zh">旅游产品排期配置</item>
+        <item for="description" lang="zh">添加旅游排期到产品</item>
+    </translations>
+    <language_variables>
+        <item id="agenda" lang="en">Agenda</item>
+        <item id="agenda" lang="zh">排程</item>
+
+        <item id="manage_agenda" lang="en">Manage Agenda</item>
+        <item id="manage_agenda" lang="zh">日期安排</item>
+
+        <item id="add_agenda" lang="en">Add Agenda</item>
+        <item id="add_agenda" lang="zh">添加日程</item>
+
+        <item id="manage_agenda_menu_description" lang="en">View all the agenda of trip product in a calendar view.</item>
+        <item id="manage_agenda_menu_description" lang="zh">在日历视图上查看所有的旅游产品日期安排.</item>
+        <item id="add_agenda_menu_description" lang="en">Edit the agenda of trip product in a list view.</item>
+        <item id="add_agenda_menu_description" lang="zh">为旅游产品添加日期安排.</item>
+    </language_variables>
+</addon>

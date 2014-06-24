@@ -414,7 +414,7 @@
             {** /Product features section **}
 
 
-        <div id="content_addons">
+            <div id="content_addons">{* all the detailed_content.post.tpl showed in Add-ons tab *}
                 {hook name="products:detailed_content"}{/hook}
             </div>
 
