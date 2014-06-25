@@ -1,16 +1,18 @@
 {capture name="mainbox"}
     <form class="form-horizontal form-edit {$form_class} " action="{""|fn_url}" method="post" id="agenda_update_form" enctype="multipart/form-data"> {* company update form *}
 
+        <input type="hidden" name="agenda_id" value="{$id}" />
+
         {* choose product *}
         <div class="control-group">
             <label class="control-label cm-required" for="elm_agenda_product">Choose Product:</label>
             <div class="controls">
-                <input type="hidden" name="agenda_data[product_id]" id="elm_agenda_product" value="" />
+                <input type="hidden" name="agenda_data[product_id]" id="elm_agenda_product" value="{$agenda.product_id}" />
                 {* the drop down list is scrollerable, and more than 6 row displayed *}
                 {include id="product_selector"
                         file="common/ajax_select_object.tpl"
                         data_url="products.get_vendor_product_list?company_id=1"
-                        text=__("none")
+                        text=$agenda.product|default:__("none")
                         result_elm="elm_agenda_product"
                 }
             </div>
@@ -25,7 +27,7 @@
                 {include file="common/calendar.tpl"
                         date_id="agenda_f_date"
                         date_name="agenda_time_from"
-                        date_val=$agenda_data['time_from']
+                        date_val=$agenda.from_time
                 }
 
                     &nbsp;&nbsp;-&nbsp;&nbsp;
@@ -34,7 +36,7 @@
                 {include file="common/calendar.tpl"
                         date_id="agenda_t_date"
                         date_name="agenda_time_to"
-                        date_val=$agenda_data['time_to']
+                        date_val=$agenda.to_time
                 }
             </div><!--end of controls-->
         </div><!--end of control-group-->
@@ -57,9 +59,18 @@
 {/capture}
 {** /Form submit section **}
 
-{include file="common/mainbox.tpl"
-        title=__("add_agenda")
-        select_languages=true
-        content=$smarty.capture.mainbox
-        buttons=$smarty.capture.buttons
-}
+{if $id}
+    {include file="common/mainbox.tpl"
+    title=__("edit_agenda")
+    select_languages=true
+    content=$smarty.capture.mainbox
+    buttons=$smarty.capture.buttons
+    }
+{else}
+    {include file="common/mainbox.tpl"
+            title=__("add_agenda")
+            select_languages=true
+            content=$smarty.capture.mainbox
+            buttons=$smarty.capture.buttons
+    }
+{/if}

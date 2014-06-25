@@ -23,6 +23,9 @@
         <item id="add_agenda" lang="en">Add Agenda</item>
         <item id="add_agenda" lang="zh">添加日程</item>
 
+        <item id="edit_agenda" lang="en">Edit Agenda</item>
+        <item id="edit_agenda" lang="zh">编辑日程</item>
+
         <item id="manage_agenda_menu_description" lang="en">View all the agenda of trip product in a calendar view.</item>
         <item id="manage_agenda_menu_description" lang="zh">在日历视图上查看所有的旅游产品日期安排.</item>
         <item id="add_agenda_menu_description" lang="en">Edit the agenda of trip product in a list view.</item>

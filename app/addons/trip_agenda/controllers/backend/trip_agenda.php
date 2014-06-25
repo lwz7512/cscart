@@ -10,29 +10,25 @@ use Tygh\Registry;
 
 if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
-// ========================= POST method ===========================
+// ========================= FORM: POST method ===========================
 
 // post method
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    $product_id = $_REQUEST['agenda_data']['product_id'];
+    $time_from = $_REQUEST['agenda_time_from'];
+    $time_to = $_REQUEST['agenda_time_to'];
+    $agenda_id = $_REQUEST['agenda_id'];
+
     if ($mode == 'add') {
-
         $suffix = '.add';
-
-        $product_id = $_REQUEST['agenda_data']['product_id'];
-        $time_from = $_REQUEST['agenda_time_from'];
-        $time_to = $_REQUEST['agenda_time_to'];
-
-        fn_update_trip_agenda($auth, $product_id, $time_from, $time_to);
     }
 
     if ($mode == 'update') {
-
-        $suffix = '.update';
-
-//        TODO, update agenda...
-
+        $suffix = '.update?agenda_id='.$agenda_id;
     }
+
+    fn_update_trip_agenda($auth, $product_id, $time_from, $time_to, $agenda_id);
 
     $msg = 'agenda saved!';
 
@@ -44,32 +40,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-// ========================= GET method ===========================
+// ========================= URL: GET method ===========================
 if ($mode == 'manage') {
 
-//    list($companies, $search) = fn_get_companies($_REQUEST, $auth, Registry::get('settings.Appearance.admin_elements_per_page'));
-//
-//    Registry::get('view')->assign('agendas', $companies);
+    $company_id = Registry::get('runtime.company_id');
+    $agendas = fn_get_trip_agendas($company_id);
+
+    Registry::get('view')->assign('agendas', $agendas);
 
 } elseif ($mode == 'update') {
 
+    if(isset($_REQUEST['agenda_id'])){
+        $agenda_id = $_REQUEST['agenda_id'];
+    }else{
+        $agenda_id = 0;
+    }
+//    PC::debug('to update: '.$agenda_id, 'trip_agenda');
+    $agenda = fn_get_one_agenda($agenda_id);
 
+    Registry::get('view')->assign('id', $agenda_id);
+    Registry::get('view')->assign('agenda', $agenda);
 
 } elseif ($mode == 'delete') {
 //    fn_delete_company($_REQUEST['company_id']);
 
+    $agenda_id = $_REQUEST['agenda_id'];
+
+    fn_delete_one_agenda($agenda_id);
+
+    $msg = 'agenda deleted!';
+
+    fn_set_notification('N', __('notice'), $msg);
+
     return array(CONTROLLER_STATUS_REDIRECT, "trip_agenda.manage");
 
-} elseif ($mode == 'update_status') {
+} elseif ($mode == 'update_status') {//AJAX CALL
 
-//    $notification = !empty($_REQUEST['notify_user']) && $_REQUEST['notify_user'] == 'Y';
-//
-//    if (fn_companies_change_status($_REQUEST['id'], $_REQUEST['status'], '', $status_from, false, $notification)) {
-//        fn_set_notification('N', __('notice'), __('status_changed'));
-//    } else {
-//        fn_set_notification('E', __('error'), __('error_status_not_changed'));
-//        Registry::get('ajax')->assign('return_status', $status_from);
-//    }
+    $agenda_id = $_REQUEST['id'];
+    $status = $_REQUEST['status'];
+
+    fn_update_agenda_status($agenda_id, $status);
+
+    fn_set_notification('N', __('notice'), __('status_changed'));
 
     exit;
 

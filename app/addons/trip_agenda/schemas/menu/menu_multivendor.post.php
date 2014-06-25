@@ -13,7 +13,7 @@ $schema['central']['agenda'] = array(
             'position' => 100,
         ),
         'add_agenda' => array(
-            'href' => 'trip_agenda.update',
+            'href' => 'trip_agenda.add',
             'position' => 200,
         ),
     ),

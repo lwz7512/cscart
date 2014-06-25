@@ -25,30 +25,31 @@
             </tr>
         </thead>
         <tbody>
+        {foreach from=$agendas item=agenda}
             {capture name="tools_items"}
-                <li>{btn type="list" href="trip_agenda.update" text=__("edit")}</li>
-                <li>{btn type="list" href="trip_agenda.delete" text=__("delete") class="cm-confirm" }</li>
+                <li>{btn type="list" href="trip_agenda.update?agenda_id=`$agenda.agenda_id`" text=__("edit")}</li>
+                <li>{btn type="list" href="trip_agenda.delete?agenda_id=`$agenda.agenda_id`" text=__("delete") class="cm-confirm" }</li>
             {/capture}
             <tr>
                 <td><input type="checkbox" name="agenda_ids[]" value="" class="cm-item" /></td>
-                <td>1</td>
-                <td class="nowrap">草原三日游</td>
-                <td>2014/06/23</td>
-                <td>2014/06/25</td>
-                <td>2014/05/06</td>
+                <td>{$agenda.agenda_id}</td>
+                <td class="nowrap">{$agenda.product}</td>
+                <td>{$agenda.from_time}</td>
+                <td>{$agenda.to_time}</td>
+                <td>{$agenda.timestamp}</td>
                 <td>
                     {dropdown content=$smarty.capture.tools_items}
                 </td>
                 <td>
                     {include file="common/select_popup.tpl"
-                        id=1
-                        status="A"
-                        object_id_name="company_id"
-                        hide_for_vendor=$runtime.company_id
+                        id=$agenda.agenda_id
+                        status=$agenda.status
+                        object_id_name="agenda_id"
                         update_controller="trip_agenda"
                     }
                 </td>
             </tr>
+        {/foreach}
         </tbody>
     </table>
 {/capture}
