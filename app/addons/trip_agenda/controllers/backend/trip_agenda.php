@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if ($mode == 'manage') {
 
     $company_id = Registry::get('runtime.company_id');
-    $agendas = fn_get_trip_agendas($company_id);
+    $agendas = fn_get_trip_agendas_by_company($company_id);
 
     Registry::get('view')->assign('agendas', $agendas);
 

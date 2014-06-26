@@ -26,6 +26,33 @@ function fn_trip_build_dispatch_before_display()
     Registry::del('navigation.tabs.blocks');
 }
 
+
+/**
+ * append trip data to original product data
+ *
+ * @param $product_data
+ * @param $auth
+ * @param $preview
+ * @param $lang_code
+ * @return bool
+ */
+function fn_trip_build_get_product_data_post(&$product_data, $auth, $preview, $lang_code)
+{
+    $product_id = $product_data['product_id'];
+    $trip_data = db_get_row("SELECT * FROM ?:product_trip WHERE product_id = ?i", $product_id);
+
+    if($trip_data){
+        $product_data['trip'] = array(
+            'characteristics' => $trip_data['product_features'],
+            'notes' => $trip_data['product_note'],
+            'must_known' => $trip_data['product_mustknown'],
+            'address' => $trip_data['address'],
+        );
+    }
+
+    return true;
+}
+
 /**
  * process submitted product data including trip properties
  *
@@ -59,32 +86,6 @@ function fn_trip_build_update_product_post($product_data, $product_id, $lang_cod
 //        PC::debug('trip product insert success!', 'trip_build');
     } else {
 //        PC::debug('trip product insert failure!', 'trip_build');
-    }
-
-    return true;
-}
-
-/**
- * append trip data to original product data
- *
- * @param $product_data
- * @param $auth
- * @param $preview
- * @param $lang_code
- * @return bool
- */
-function fn_trip_build_get_product_data_post(&$product_data, $auth, $preview, $lang_code)
-{
-    $product_id = $product_data['product_id'];
-    $trip_data = db_get_row("SELECT * FROM ?:product_trip WHERE product_id = ?i", $product_id);
-
-    if($trip_data){
-        $product_data['trip'] = array(
-            'characteristics' => $trip_data['product_features'],
-            'notes' => $trip_data['product_note'],
-            'must_known' => $trip_data['product_mustknown'],
-            'address' => $trip_data['address'],
-        );
     }
 
     return true;
