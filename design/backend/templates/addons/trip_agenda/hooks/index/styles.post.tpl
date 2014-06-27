@@ -1,0 +1,1 @@
+{style src="addons/trip_agenda/calendar.css"}
