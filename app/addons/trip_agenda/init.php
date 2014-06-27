@@ -14,5 +14,7 @@ fn_register_hooks(
     'delete_product_post',
     'pre_add_to_cart',
     'post_add_to_cart',
-    'pre_place_order'
+    'pre_place_order',
+    'place_order',
+    'get_order_info'
 );

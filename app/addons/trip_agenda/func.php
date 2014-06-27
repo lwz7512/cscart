@@ -42,7 +42,7 @@ function fn_trip_agenda_delete_product_post($product_id, $product_deleted){
 
 function fn_trip_agenda_pre_place_order($cart){
 
-    PC::debug($cart['agenda'], 'pre_place_order');
+//    PC::debug($cart['agenda'], 'pre_place_order');
 
     return true;
 }
@@ -64,9 +64,7 @@ function fn_trip_agenda_pre_add_to_cart($product_data, &$cart, $auth, $update){
     foreach($product_data as $id => $value){
         $agenda_id = $value['agenda'];
     }
-    $cart['agenda'] = fn_get_one_agenda($agenda_id);//save agenda id in cart
-
-    //TODO, save in database...and show in order details...
+    $cart['agenda'] = fn_get_one_agenda($agenda_id);//save agenda in cart for later save
 
     return true;
 }
@@ -78,6 +76,50 @@ function fn_trip_agenda_post_add_to_cart($product_data, $cart, $auth, $update){
 }
 
 
+/**
+ * save agenda along with order
+ *
+ * @param $order_id
+ * @param $action
+ * @param $order_status
+ * @param $cart
+ * @param $auth
+ * @return bool
+ */
+function fn_trip_agenda_place_order($order_id, $action, $order_status, $cart, $auth){
+    if(!isset($cart['agenda']['agenda_id'])) return true;
+
+    if(isset($cart['agenda'])){
+        $agenda_order = array(
+            'order_id' => $order_id,
+            'agenda_id' => $cart['agenda']['agenda_id'],
+            'user_id' => $cart['user_id'],
+            'timestamp' => TIME
+        );
+        db_query("INSERT INTO ?:agenda_order ?e", $agenda_order);
+    }
+
+    return true;
+}
+
+/**
+ * append agenda to order for rendering order details template
+ *
+ * @param $order
+ * @param $additional_data
+ * @return bool
+ */
+function fn_trip_agenda_get_order_info(&$order, $additional_data){
+
+    $order_id = $order['order_id'];
+    $order['agenda'] = fn_get_agenda_in_order($order_id);
+
+    return true;
+}
+
+
+//========================== UTILS =========================================
+
 function trip_agenda_trace($msg)
 {
     $logger = Logger::instance();
@@ -88,6 +130,29 @@ function trip_agenda_trace($msg)
 
 
 //=========================== CRUD METHOD ===================================
+
+/**
+ * get agenda data in order
+ *
+ * @param $order_id
+ * @return array
+ */
+function fn_get_agenda_in_order($order_id){
+
+    $sql = "SELECT DISTINCT t.order_id, t.agenda_id, a.product_id, ";
+    $sql .= "DATE_FORMAT(FROM_UNIXTIME(a.from_time),'%m/%d/%Y') as from_time, ";
+    $sql .= "DATE_FORMAT(FROM_UNIXTIME(a.to_time),'%m/%d/%Y') as to_time ";//no comma !
+    $sql .= "FROM ?:agenda_order t ";
+    $sql .= "LEFT JOIN ?:trip_agenda a ON a.agenda_id=t.agenda_id ";
+    $sql .= "WHERE t.order_id = ?i";
+
+    $agenda = db_get_row($sql, $order_id);
+    if(isset($agenda['from_time']) && isset($agenda["to_time"])){
+        $agenda['period'] = $agenda['from_time']."~".$agenda["to_time"];
+    }
+
+    return $agenda;
+}
 
 /**
  * create/update trip agenda
@@ -147,7 +212,7 @@ function fn_get_trip_agendas_by_company($company_id){
     $sql = "SELECT DISTINCT t.agenda_id, t.product_id, d.product, t.status, ";
     $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.from_time),'%m/%d/%Y') as from_time, ";
     $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.to_time),'%m/%d/%Y') as to_time, ";
-    $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.timestamp),'%m/%d/%Y') as timestamp ";
+    $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.timestamp),'%m/%d/%Y') as timestamp ";//no comma
     $sql .= "FROM ?:trip_agenda t ";
     $sql .= "LEFT JOIN ?:product_descriptions d ON t.product_id=d.product_id ";
     $sql .= "WHERE t.company_id = ?i";
@@ -190,7 +255,7 @@ function fn_get_one_agenda($agenda_id){
     $sql = "SELECT DISTINCT t.agenda_id, t.product_id, d.product, t.status, ";
     $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.from_time),'%m/%d/%Y') as from_time, ";
     $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.to_time),'%m/%d/%Y') as to_time, ";
-    $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.timestamp),'%m/%d/%Y') as timestamp ";
+    $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.timestamp),'%m/%d/%Y') as timestamp ";//no comma
     $sql .= "FROM ?:trip_agenda t ";
     $sql .= "LEFT JOIN ?:product_descriptions d ON t.product_id=d.product_id ";
     $sql .= "WHERE t.agenda_id = ?i";
