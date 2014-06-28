@@ -24,8 +24,7 @@ if ($mode == 'get_vendor_product_list') {
     $start = !empty($params['start']) ? $params['start'] : 0;
     $limit = (!empty($params['limit']) ? $params['limit'] : 10) + 1;
 
-//    PC::debug('company_id: '.$condition, 'AJAX');
-//    PC::debug('limit: '.$limit, 'AJAX');
+//    PC::debug('company_id is: '.$condition, 'get_vendor_product_list');
 
     /**
      * db_get_hash_array: need index field definition in second argument, e.g: 'value'
@@ -37,14 +36,11 @@ if ($mode == 'get_vendor_product_list') {
         $objects = db_get_hash_array("SELECT DISTINCT t.product_id as value, d.product AS name FROM ?:products t LEFT JOIN ?:product_descriptions d ON t.product_id=d.product_id WHERE 1 AND product LIKE ?l ORDER BY t.product_id DESC LIMIT ?i, ?i", 'value', $pattern . '%', $start, $limit);
     }
 
-//    PC::debug('objects:'.count($objects), 'AJAX');
-
     if (defined('AJAX_REQUEST') && sizeof($objects) < $limit) {
         Registry::get('ajax')->assign('completed', true);
     } else {
         array_pop($objects);
     }
-
 
 
     Registry::get('view')->assign('objects', $objects);

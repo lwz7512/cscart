@@ -10,7 +10,15 @@ use Tygh\Registry;
 
 //========================== HOOKS METHOD ==================================
 
-
+/**
+ * show agenda of product in frontend
+ *
+ * @param $product_data
+ * @param $auth
+ * @param $preview
+ * @param $lang_code
+ * @return bool
+ */
 function fn_trip_agenda_get_product_data_post(&$product_data, $auth, $preview, $lang_code){
 
     $product_id = $product_data['product_id'];

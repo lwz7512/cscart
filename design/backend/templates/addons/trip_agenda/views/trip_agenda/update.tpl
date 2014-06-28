@@ -2,6 +2,8 @@
     <form class="form-horizontal form-edit {$form_class} " action="{""|fn_url}" method="post" id="agenda_update_form" enctype="multipart/form-data"> {* company update form *}
 
         <input type="hidden" name="agenda_id" value="{$id}" />
+        <!--for calendar use in func.js-->
+        <input type="hidden" id="company_id" name="company_id" value="{$runtime.company_id|default:0}" />
 
         {* choose product *}
         <div class="control-group">
@@ -11,7 +13,7 @@
                 {* the drop down list is scrollerable, and more than 6 row displayed *}
                 {include id="product_selector"
                         file="common/ajax_select_object.tpl"
-                        data_url="products.get_vendor_product_list?company_id=1"
+                        data_url="products.get_vendor_product_list?company_id={$runtime.company_id|default:0}"
                         text=$agenda.product|default:__("none")
                         result_elm="elm_agenda_product"
                 }
