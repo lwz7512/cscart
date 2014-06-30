@@ -81,12 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				} elseif (in_array($p_id, $messages_exist)) {
 					$prop = fn_get_message_prop($p_id);
 					db_query("UPDATE ?:faq_messages SET ?u WHERE message_id = ?i", $data, $p_id);
-					$data['status'] = $data['status'] ? $data['status'] : 'A';
+                    //FIXME, fix status undefined bug in previous php @2014/06/30
+					$data['status'] = isset($data['status']) ? $data['status'] : 'A';
 					fn_check_to_aprove_faq($data['status'], $p_id);
 				}
 			}
 			foreach ($_REQUEST['faq_data']['add_message'] as $f_id => $data) {
-				$data['status'] = $data['status'] ? $data['status'] : 'A';
+                //FIXME, fix status undefined bug in previous php @2014/06/30
+				$data['status'] = isset($data['status']) ? $data['status'] : 'A';
 				$data['user_id'] = $auth['user_id'];
 				fn_insert_new_message($data, $f_id);
 				if (!empty($data) && !empty($data['message'])) {
