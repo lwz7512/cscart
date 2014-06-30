@@ -45,6 +45,14 @@ function fn_activate_altteam_faq($data = array())
 	return true;
 }
 
+/**
+ * get the thread of one product,
+ * then use the thread id to get Q&A with fn_get_faqs_data
+ *
+ * @param $object_id
+ * @param $object_type
+ * @return array
+ */
 function fn_get_faq($object_id, $object_type)
 {
     $condition = '';
@@ -99,6 +107,14 @@ function fn_get_faqs($params = array())
 	return array($faq_data, $params);
 }
 
+/**
+ *
+ * get the Q&A of one thread
+ *
+ * @param int $thread_id
+ * @param int $page
+ * @return bool
+ */
 function fn_get_faqs_data($thread_id = 0, $page = 0)
 {
 	$condition = '1';
@@ -113,7 +129,7 @@ function fn_get_faqs_data($thread_id = 0, $page = 0)
 	 	return false;
 	}
 
-	$page = $_REQUEST['page'];
+//	$page = $_REQUEST['page'];
 
 	$condition .= (AREA == 'A') ? '' : " AND ?:faq_data.status = 'A' AND ?:faq_messages.status = 'A'";
 
@@ -122,7 +138,9 @@ function fn_get_faqs_data($thread_id = 0, $page = 0)
 
 	$join = "LEFT JOIN ?:faq_messages ON ?:faq_messages.faq_id = ?:faq_data.faq_id";
 
-	$faq_ids = db_get_fields("SELECT ?:faq_data.faq_id FROM ?:faq_data $join WHERE ?p ORDER BY ?:faq_messages.timestamp DESC $limit", $condition);
+	$faq_ids = db_get_fields("SELECT ?:faq_data.faq_id FROM ?:faq_data $join WHERE ?p ORDER BY ?:faq_messages.timestamp DESC ", $condition);
+
+
 
 	foreach ($faq_ids as $f_id => $faq_id) {
 		$faq_data[$faq_id] = fn_get_faq_data($faq_id);
@@ -169,9 +187,19 @@ function fn_add_faq_details($data = array())
 	return true;
 }
 
-function fn_get_latest_faqs()
+/**
+ * get the latest 10 Q&A
+ *
+ * @param int $limit
+ * @return array
+ */
+function fn_get_latest_faqs($limit = 10)
 {
-	$latest_faqs = db_get_array("SELECT a.message_id, a.ip_address, a.name, a.message, a.status, a.timestamp, a.type, b.faq_id, b.thread_id, c.object_id, c.thread_id, c.object_type FROM ?:faq_messages as a LEFT JOIN ?:faq_data as b ON a.faq_id = b.faq_id LEFT JOIN ?:faq as c ON b.thread_id = c.thread_id ORDER BY a.timestamp DESC LIMIT 5");
+    $sql = "SELECT a.message_id, a.ip_address, a.name, a.message, a.status, a.timestamp, a.type, b.faq_id, b.thread_id, c.object_id, c.thread_id, c.object_type ";
+    $sql .= "FROM ?:faq_messages as a ";
+    $sql .= "LEFT JOIN ?:faq_data as b ON a.faq_id = b.faq_id LEFT JOIN ?:faq as c ON b.thread_id = c.thread_id ";
+    $sql .= "ORDER BY a.timestamp DESC LIMIT ?i";
+	$latest_faqs = db_get_array($sql, $limit);
 	foreach ($latest_faqs as $key => $message_container) {
 		$latest_faqs[$key]['object_data'] = fn_get_faq_object_data($message_container['object_id'], $message_container['object_type'], DESCR_SL);
 	}
@@ -181,6 +209,7 @@ function fn_get_latest_faqs()
 function fn_get_faq_object_data($object_id, $object_type, $lang_code = CART_LANGUAGE)
 {
 	$data = array();
+    //FIXME, init $index_script with fn_get_index_script @2014/06/29
     $index_script = fn_get_index_script('A');
 	// product
 	if ($object_type == 'p') {
@@ -402,8 +431,8 @@ function fn_add_faq($faq_data, $faq_message)
 		} else {
 			if (fn_check_faq_id_by_thread_id($faq_data['faq_id'], $faq_data['thread_id'])) {
 				fn_insert_new_message($faq_message, $faq_data['faq_id']);
-
-				if ($faq_data['status'] == 'A') {
+                //FIXME, check status first @2014/06/30
+				if (isset($faq_data['status']) == 'A') {
 					fn_send_answer_email($faq_message, $faq_data['faq_id']);
 				}
 
@@ -583,6 +612,15 @@ function fn_faq_get_object_by_thread($thread_id)
 function fn_get_faq_upgrate()
 {
 	return 'N';
+}
+
+
+function fn_faq_trace($msg)
+{
+    $logger = Logger::instance();
+    $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/debug.log';
+
+    $logger->write($msg);
 }
 
 ?>
