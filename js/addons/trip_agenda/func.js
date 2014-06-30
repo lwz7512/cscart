@@ -7,12 +7,16 @@
 
         var company_id = $("#company_id").val();
 
+        //FIXME, skip execution for backend dashboard page
+        //2014/06/30
+        if(typeof company_id === 'undefined') return;
+
         var current_location = Tygh.current_location;
         var domain = current_location.substr(7);//remove http://
 
         //FIXME, change ekey for product environment
-        //var ekey = "lwz7512@gmail.com:bc131wPq6GYS148l21k1Ao81I89BafsR";//remote
-        var ekey = "lwz7512@gmail.com:vnN7J624d2Ec6UN812dI0584KQ78867e";//local
+        var ekey = "lwz7512@gmail.com:bc131wPq6GYS148l21k1Ao81I89BafsR";//remote
+        //var ekey = "lwz7512@gmail.com:vnN7J624d2Ec6UN812dI0584KQ78867e";//local
 
         var api_url = "http://"+ekey+"@"+domain+"/api/agendas/"+company_id;
         var today = new Date().format("yyyy-MM-dd");
@@ -35,7 +39,7 @@
             }
         };
 
-        console.log(api_url);
+//        console.log(api_url);
 
         var calendar = $('#trip_calendar').calendar(options);
 
@@ -97,7 +101,6 @@
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
         return fmt;
     }
-
 
 
 }(jQuery));

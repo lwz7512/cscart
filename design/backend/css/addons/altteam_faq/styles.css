@@ -1,0 +1,13 @@
+.post-item.faq-questions, .post-item.faq-questions div.summary,
+.post-item.faq-questions div.summary input[type="text"],
+.post-item.faq-questions div.summary  textarea {
+	min-width: 380px;
+	width: 380px;
+}
+
+.post-item.faq-answer, .post-item.faq-answer div.summary,
+.post-item.faq-answer div.summary input[type="text"],
+.post-item.faq-answer div.summary  textarea {
+	min-width: 500px;
+	width: 500px;
+}

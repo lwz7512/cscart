@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<addon scheme="2.0">
+	<id>altteam_faq</id>
+	<name>Alt-team: FAQ</name>
+	<description>Lets customers leave a questions</description>
+	<version>faq_4_1.1.2.16</version>
+	<priority>1233</priority>
+	<position>0</position>
+	<status>active</status>
+    <default_language>en</default_language>
+	<queries>
+		<item>
+			CREATE TABLE `?:faq` (
+				`thread_id` mediumint(8) unsigned NOT NULL auto_increment,
+				`object_id` mediumint(8) unsigned NOT NULL default '0',
+				`object_type` char(1) NOT NULL,
+				`type` char(1) NOT NULL default 'D',
+				PRIMARY KEY (`thread_id`)
+			) Engine=MyISAM DEFAULT CHARSET UTF8;
+		</item>
+
+		<item>
+			CREATE TABLE `?:faq_data` (
+				`faq_id` mediumint(8) unsigned NOT NULL auto_increment,
+				`thread_id` mediumint(8) unsigned NOT NULL default '0',
+				`status` char(1) NOT NULL default 'D',
+				PRIMARY KEY (`faq_id`)
+            ) Engine=MyISAM DEFAULT CHARSET UTF8;
+		</item>
+
+		<item>
+			CREATE TABLE `?:faq_messages` (
+				`message_id` mediumint(8) unsigned NOT NULL auto_increment,
+				`faq_id` mediumint(8) unsigned NOT NULL,
+                `message` mediumtext NOT NULL,
+				`name` varchar(128) NOT NULL default '',
+				`timestamp` int(11) unsigned NOT NULL default '0',
+				`user_id` mediumint(8) NOT NULL default '0',
+				`email` varchar(128) NOT NULL default '',
+				`ip_address` varchar(15) NOT NULL default '',
+				`type` char(1) NOT NULL default 'A',
+				`status` char(1) NOT NULL default 'D',
+				PRIMARY KEY (`message_id`)
+            ) Engine=MyISAM DEFAULT CHARSET UTF8;
+		</item>
+
+		<item editions="ULTIMATE">
+            ALTER TABLE `?:faq`
+            ADD COLUMN `company_id` int(11) unsigned NOT NULL DEFAULT '0',
+            ADD KEY `company_id` (`company_id`),
+            <!--DROP INDEX  `object_id` ,-->
+            ADD UNIQUE  `object_id` (  `object_id` ,  `object_type` ,  `company_id` );
+        </item>
+
+		<!--<item for="uninstall">DROP TABLE IF EXISTS `?:faq`</item>-->
+		<!--<item for="uninstall">DROP TABLE IF EXISTS `?:faq_data`</item>-->
+		<!--<item for="uninstall">DROP TABLE IF EXISTS `?:faq_messages`</item>-->
+	</queries>
+
+	<settings>
+		<sections>
+			<section id="General">
+				<name>General</name>
+				<items>
+					<item id="elm_general_settings">
+						<name>General settings</name>
+						<type>header</type>
+						<handler></handler>
+					</item>
+					<item id="customer_answer">
+						<name>Allow customers to answer questions</name>
+						<type>checkbox</type>
+						<default_value>Y</default_value>
+					</item>
+					<item id="mandatory_email">
+						<name>Make e-mail field mandatory</name>
+						<type>checkbox</type>
+						<default_value>N</default_value>
+					</item>
+					<item id="approve_customer_message">
+						<name>Auto approve customers' messages</name>
+						<type>checkbox</type>
+						<default_value>N</default_value>
+					</item>
+					<item id="links_filter">
+						<name>Links filter</name>
+						<type>checkbox</type>
+						<default_value>N</default_value>
+					</item>
+					<item id="elm_notification_settings">
+						<name>Notification settings</name>
+						<type>header</type>
+						<handler></handler>
+					</item>
+					<item id="product_notification_email">
+						<name>Send notifications to this admin's e-mail</name>
+						<type>input</type>
+						<default_value></default_value>
+					</item>
+					<item id="question_email_notification">
+						<name>Send question email notifications</name>
+						<type>checkbox</type>
+						<default_value>Y</default_value>
+					</item>
+					<item id="answer_email_notification">
+						<name>Send answer email notifications</name>
+						<type>checkbox</type>
+						<default_value>Y</default_value>
+					</item>
+				</items>
+			</section>
+		</sections>
+	</settings>
+
+	<language_variables>
+		<item lang="en" id="faq">FAQ</item>
+		<item lang="en" id="faq_title_product">FAQ</item>
+		<item lang="en" id="add_faq">Add FAQ</item>
+		<item lang="en" id="question">Question</item>
+		<item lang="en" id="your_question">Your question</item>
+		<item lang="en" id="no_faq_found">No FAQ found</item>
+		<item lang="en" id="new_answer">New answer</item>
+		<item lang="en" id="your_answer">Your answer</item>
+		<item lang="en" id="asked_by">Asked by</item>
+		<item lang="en" id="answered_by">Answered by</item>
+		<item lang="en" id="add_answer">Add answer</item>
+		<item lang="en" id="answer_s">answer(s)</item>
+		<item lang="en" id="new_faq">New FAQ</item>
+		<item lang="en" id="latest_faq">Latest FAQ</item>
+		<item lang="en" id="thread_located_in">This thread is located at:</item>
+		<item lang="en" id="submitted_question">Your question has been submitted. Please check back shortly for an answer.</item>
+		<item lang="en" id="submitted_answer">Your answer has been submitted.</item>
+		<item lang="en" id="not_submitted_answer">Your answer/question hasn't been submitted.</item>
+		<item lang="en" id="email_notification">You will be notified as soon as your question is answered.</item>
+		<item lang="en" id="text_new_faq_notification">This is a notification of a new answer of your question.</item>
+		<item lang="en" id="text_new_admin_faq_notification_question">This is the notification about a new question submitted.</item>
+		<item lang="en" id="text_new_admin_faq_notification_answer">This is the notification about a new answer submitted.</item>
+		<item lang="en" id="faq_subject">New faq post</item>
+		<item lang="en" id="follow_link">Please, follow this link to view the submitted message:</item>
+		<item lang="en" id="don_t_post_link">Please don't post links</item>
+	</language_variables>
+
+	<functions>
+		<item for="install">fn_activate_altteam_faq</item>
+	</functions>
+</addon>

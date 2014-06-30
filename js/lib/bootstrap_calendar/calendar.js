@@ -929,7 +929,11 @@ if(!String.prototype.formatNum) {
 	Calendar.prototype._update = function() {
 		var self = this;
 
-		$('*[data-toggle="tooltip"]').tooltip({container: 'body'});
+        //FIXME, resolve the conflict with jquerytools/tooltip
+        //2014/06/30
+//		$('*[data-toggle="tooltip"]').tooltip({container: 'body'});
+		$(".events-list a[title]").tooltip();
+
 
 		$('*[data-cal-date]').click(function() {
 			var view = $(this).data('cal-view');

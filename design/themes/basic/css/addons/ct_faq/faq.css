@@ -1,0 +1,304 @@
+/* BLUE */
+.ct-faq-dynamic, .ct-faq-static, .ct-slide-wrap  {
+    //width: 500px;
+    font-family: Arial, Tahoma, sans-serif;
+    font-size: 13px;
+}
+.faq-blue dt {
+    position: relative;
+    cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, .45);
+    margin-top: 4px;
+    padding: 0 47px;
+    background: #1a96d1 url(images/addons/ct_faq/bg.png) repeat-x 0 0;
+    border: 1px solid #36b5dd;
+    border-bottom: none;
+    border-radius: 4px;
+    -moz-box-shadow: inset 0 -7px 10px -10px rgba(0, 0, 0, .7);
+    -webkit-box-shadow: inset 0 -7px 10px -10px rgba(0, 0, 0, .7);
+    box-shadow: inset 0 -7px 10px -10px rgba(0, 0, 0, .7);
+}
+.faq-blue dt > div {
+    z-index: 100;
+    position: relative;
+    padding: 11px 0 10px;
+    color:#FFF;
+}
+.faq-blue dd {
+    position: relative;
+    margin: -38px 0 0;
+    padding: 33px 0 0;
+    background: url("images/addons/ct_faq/arrow-up.png") no-repeat right 0;
+}
+.faq-blue dd > div{
+    margin: 0;
+    padding: 10px 47px;
+    background: #fff url("images/addons/ct_faq/a.png") no-repeat 7px 8px;
+    border: 1px solid #188ec9;
+    border-top: none;
+    font-size: 13px;
+    border-radius: 4px 0 4px 4px;
+}
+.faq-blue dd > div p{
+    color: #7d7d7d;
+}
+.faq-blue .ct-faq-q {
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    width: 32px;
+    height: 33px;
+    background: url(images/addons/ct_faq/q.png) no-repeat 0 0;
+    margin-top: -17px;
+}
+.faq-blue .ct-faq-arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 17px;
+    height: 12px;
+    margin-top: -6px;
+    background: url("images/addons/ct_faq/arrow-down.png") no-repeat 0 0;
+}
+/* GREY */
+.faq-grey dt {
+    background: #e5e5e5 url(images/addons/ct_faq/bg-g.png) repeat-x 0 0;
+    border: 1px solid #c9c9c9;
+    color: #333;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, .45);
+    -moz-box-shadow: inset 0 -7px 10px -10px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: inset 0 -7px 10px -10px rgba(0, 0, 0, .2);
+    box-shadow: inset 0 -7px 10px -10px rgba(0, 0, 0, .2);
+}
+.faq-grey dd {background-image: url("images/addons/ct_faq/arrow-up-g.png")}
+.faq-grey dd > div { border-color: #E1E1E1;}
+.faq-grey .ct-faq-q {background-image: url("images/addons/ct_faq/q-g.png")}
+.faq-grey .ct-faq-arrow {background-image: url(images/addons/ct_faq/arrow-down-g.png)}
+/* SIDE */
+.ct-side-wrap h3, .ct-side-wrap {
+    font-family: Arial, Tahoma, sans-serif;
+}
+.ct-side-wrap {
+    background: #e2e2e2 url(images/addons/ct_faq/side-faq.png) repeat-x 0 0;
+    padding: 4px;
+    //width: 500px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+}
+.ct-side-wrap.ct-shadow {
+    background: #e2e2e2 url(images/addons/ct_faq/side-faq.png) repeat-x 0 0;
+    padding: 4px;
+//width: 500px;
+    border: none;
+    border-radius: 4px;
+}
+.ct-side-wrap h3 {
+    font-size: 16px;
+    margin: 14px 0 0 5px;
+}
+.ct-side-wrap dt {
+    position: relative;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, .45);
+    margin-top: 4px;
+    padding: 0 31px;
+    border-top: 1px solid #FFFFFF;
+    background: #fafafa url("images/addons/ct_faq/q-side.png") no-repeat 8px 9px;
+    border-radius: 4px;
+    -moz-box-shadow: 0 0 2px 0px rgba(0,0,0, 0.07);
+    -webkit-box-shadow: 0 0 2px 0px rgba(0,0,0, 0.07);
+    box-shadow: 0 0 2px 0px rgba(0,0,0, 0.07);
+}
+.ct-side-wrap dt > div {
+    z-index: 100;
+    position: relative;
+    padding: 10px 0 9px;
+}
+.ct-side-wrap dd {
+    border-top: 1px solid #EEEEEE;
+    margin: -2px 0 0;
+    position: relative;
+}
+.ct-side-wrap dd > div {
+    margin: 0;
+    padding: 10px 15px;
+    background: #fafafa;
+    color: #8F8F8F;
+    font-size: 12px;
+    border-radius: 0 0 4px 4px;
+    -moz-box-shadow: 0 0 2px 0px rgba(0,0,0, 0.07);
+    -webkit-box-shadow: 0 0 2px 0px rgba(0,0,0, 0.07);
+    box-shadow: 0 0 2px 0px rgba(0,0,0, 0.07);
+}
+.ct-side-wrap dd > div p{
+    color: #8F8F8F;
+}
+
+/* SHADOW */
+.ct-side-wrap.ct-shadow {
+    background: #fff;
+}
+
+.ct-side-wrap.ct-shadow dt {
+    background: url("images/addons/ct_faq/q-shadow.png") no-repeat 6px 11px #fff;
+    color: #292929;
+    padding: 12px 25px;
+    border-radius: 10px;
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, .09);
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, .09);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, .09);
+}
+.ct-side-wrap.ct-shadow dd {
+    margin: 8px 0 0;
+    padding: 12px 7px;
+    color: #666666;
+    font-size: 12px;
+    border: none;
+    border-radius: 10px;
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, .09);
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, .09);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, .09);
+}
+.ct-shadow .ct-status {
+    display: block;
+    height: 7px;
+    width: 7px;
+    background: url(images/addons/ct_faq/plm.png) no-repeat 0 -7px;
+    position: absolute;
+    right: 15px;
+    top: 16px;
+}
+.ct-shadow .ct-minus .ct-status {
+    background-position: 0 0;
+}
+/* SLIDE */
+.ct-slide-wrap dt {
+    color: #188CC1;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 8px 12px 8px 32px;
+    position: relative;
+}
+.ct-slide-wrap dd {
+    margin: 0;
+    padding: 0 12px 12px;
+    font-size: 12px;
+    color: #666666;
+    background: #f7fbfc;
+}
+.ct-slide-wrap dd p{
+    color: #666666;
+}
+.ct-slide-wrap .ct-status {
+    display: block;
+    width: 14px;
+    height: 15px;
+    background: url(images/addons/ct_faq/plm-slide.png) no-repeat 0 0;
+    position: absolute;
+    top: 10px;
+    left: 12px;
+}
+.ct-slide-wrap .ct-minus {
+    background: #f7fbfc;
+}
+.ct-slide-wrap .ct-minus .ct-status {
+    background-position: 0 -15px;
+}
+/* STATIC */
+.ct-faq-static h3 {
+    font-size: 20px;
+    margin: 24px 0;
+    color: #737373;
+}
+.ct-faq-static dt {
+    color: #353535;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0 30px;
+    background: url("images/addons/ct_faq/q-static.png") no-repeat 0px 0px;
+}
+
+.ct-faq-static dd {
+    padding: 0 0 15px 30px;
+    margin: 0 0 15px;
+    border-bottom: 1px dashed #e0e0e0;
+    color: #7d7d7d;
+}
+.ct-faq-static dd p{
+    color: #7d7d7d;
+}
+.ct-faq-static dd:last-child {
+    border-bottom: none;
+}
+/* LINE */
+.ct-faq-static.line dl {
+    padding-left: 5px;
+}
+.ct-faq-static.line dt {
+    padding: 0 0 15px 20px;
+    background: url("images/addons/ct_faq/q-line.png") no-repeat 0 0;
+}
+.ct-faq-static.line dd {
+    padding: 0 0 15px 20px;
+    background: url("images/addons/ct_faq/a-line.png") no-repeat 2px 0;
+}
+.ct-faq-static.line dt > div {
+    border-left: 2px solid #0088db;
+    padding-left: 5px;
+}
+.ct-faq-static.line dd > div {
+    border-left: 2px solid #83c600;
+    padding-left: 5px;
+}
+/* BOBBLE */
+.ct-faq-static.buble dt, .ct-faq-static.buble dd {
+    background: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+.ct-faq-static.buble dt {
+    margin: 28px 0 0;
+}
+.ct-faq-static.buble dd {
+    margin: 15px 0;
+}
+.ct-faq-static.buble dt > div, .ct-faq-static.buble dd > div  {
+    position: relative;
+    background: #f5f8fa;
+    border: 1px solid #edf0f2;
+    padding: 11px 15px;
+    border-radius: 4px;
+}
+.ct-faq-static.buble dd > div {
+    background: #f8faf5;
+    border-color: #eef2e9;
+}
+.ct-faq-static.buble .ct-q, .ct-faq-static.buble .ct-a {
+    display: block;
+    position: absolute;
+    background: url("images/addons/ct_faq/q-bl.png") no-repeat 0 bottom;
+    left: 25px;
+    top: -18px;
+    padding-left: 25px;
+    padding-bottom: 2px;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: normal;
+    color: #cccccc;
+}
+.ct-faq-static.buble .ct-a {
+    background: url("images/addons/ct_faq/a-bl.png") no-repeat right bottom;
+    left: auto;
+    right: 25px;
+    padding-right: 25px;
+}
+
+
+dt.ct-minus  {
+    font-weight: bold;
+}
+

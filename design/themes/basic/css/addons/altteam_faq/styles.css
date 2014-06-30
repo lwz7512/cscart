@@ -1,0 +1,27 @@
+.faqs {
+	padding: 7px 6px 10px 10px;
+}
+
+.faq_answer {
+	margin-left: 50px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	border-radius: 6px;
+	border: 1px solid #BEBEBE;
+	background-color: #DFDFDF;
+	box-shadow: 0.2em 0.2em 5px #CCC;
+}
+
+.faq_support_string {
+	font-size: 9px;
+}
+
+#content_faq .buttons-container {
+    background: none repeat scroll 0 0 #F5F5F5;
+    border-radius: 0 0 3px 3px;
+    border-top: 1px solid #DDDDDD;
+    margin-top: 30px;
+    padding: 17px 20px;
+}

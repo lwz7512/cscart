@@ -1,0 +1,248 @@
+﻿<?xml version="1.0"?>
+<addon scheme='2.0'>
+	<id>ct_faq</id>
+	<name>FAQ Addon by CartTuning</name>
+	<version>1.0.2</version>
+	<description>Allows you to manage easily your Frequently Asked Questions for website and products</description>
+    <priority>100</priority>
+    <position>100</position>
+    <has_icon>Y</has_icon>
+    <status>active</status>
+    <default_language>en</default_language>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <queries>
+        <item for="install">
+            CREATE TABLE `?:faq_categories` (
+            `category_id` INT NOT NULL AUTO_INCREMENT ,
+            `position` SMALLINT( 5 ) UNSIGNED DEFAULT '0',
+            `status` CHAR(1) DEFAULT 'A',
+            `company_id` INT NOT NULL default '0',
+            PRIMARY KEY ( `category_id` )
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_categories_descriptions` (
+            `category_id` INT NOT NULL ,
+            `name` VARCHAR( 255 ) NOT NULL default '',
+            `lang_code` char(2) NOT NULL DEFAULT 'EN'
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_questions` (
+            `category_id` INT NOT NULL ,
+            `question_id` INT NOT NULL AUTO_INCREMENT ,
+            `position` SMALLINT( 5 ) UNSIGNED DEFAULT '0',
+            `status` CHAR( 1 ) DEFAULT 'A',
+            PRIMARY KEY ( `question_id` )
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_questions_descriptions` (
+            `question_id` INT,
+            `question` VARCHAR( 255 ) NOT NULL default '',
+            `answer` TEXT NOT NULL,
+            `anchor` TEXT,
+            `visible` char(1) NOT NULL default 'N',
+            `lang_code` char(2) NOT NULL DEFAULT 'EN'
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_product` (
+            `question_id` int(11) NOT NULL AUTO_INCREMENT,
+            `product_id` int(11) NOT NULL,
+            `position` int(11) NOT NULL,
+            `status` varchar(1) NOT NULL DEFAULT 'A',
+            PRIMARY KEY (`question_id`)
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_product_descriptions` (
+            `question_id` int(11) NOT NULL,
+            `answer` text NOT NULL,
+            `question` text NOT NULL,
+            `lang_code` varchar(2) NOT NULL DEFAULT 'EN'
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_global_questions` (
+            `question_id` int(11) NOT NULL AUTO_INCREMENT,
+            `answer` text NOT NULL,
+            `question` text NOT NULL,
+            `lang_code` varchar(2) NOT NULL DEFAULT 'EN',
+            `status` varchar(1) NOT NULL DEFAULT 'A',
+            PRIMARY KEY (`question_id`)
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:faq_global_questions_products_ids` (
+            `question_id` int(11) NOT NULL,
+            `product_id` text
+            )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        </item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_product`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_product_descriptions`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_categories`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_questions`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_categories_descriptions`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_questions_descriptions`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_global_questions`</item>
+        <item for="uninstall">DROP TABLE IF EXISTS `?:faq_global_questions_products_ids`</item>
+    </queries>
+    <functions>
+        <item for="uninstall">fn_ct_faq_clean_blocks</item>
+    </functions>
+    <settings>
+		<sections>
+			<section id="general">
+				<name>Generic settings</name>		
+				<items>
+					<item id="display_product">
+						<name>Theme for detailed product page</name>
+						<type>radiogroup</type>
+						<default_value>blue</default_value>
+						<variants>
+							<item id="blue">
+								<name>Blue theme</name>
+							</item>
+							<item id="grey">
+								<name>Grey theme</name>
+							</item>
+							<item id="side">
+								<name>Side theme</name>
+							</item>
+                            <item id="static">
+                                <name>Static theme</name>
+                            </item>
+                            <item id="line">
+                                <name>Line theme</name>
+                            </item>
+                            <item id="shadow">
+                                <name>Shadow theme</name>
+                            </item>
+                            <item id="bubble">
+                                <name>Bubble theme</name>
+                            </item>
+                            <item id="slide">
+                                <name>Slide theme</name>
+                            </item>
+						</variants>				
+					</item>
+					<item id="display_faq">
+						<name>Theme for FAQ page</name>
+						<type>radiogroup</type>
+						<default_value>blue</default_value>
+						<variants>
+							<item id="blue">
+								<name>Blue theme</name>
+							</item>
+							<item id="grey">
+								<name>Grey theme</name>
+							</item>
+							<item id="side">
+								<name>Side theme</name>
+							</item>
+							<item id="static">
+								<name>Static theme</name>
+							</item>
+                            <item id="line">
+                                <name>Line theme</name>
+                            </item>
+                            <item id="shadow">
+                                <name>Shadow theme</name>
+                            </item>
+                            <item id="bubble">
+                                <name>Bubble theme</name>
+                            </item>
+                            <item id="slide">
+                                <name>Slide theme</name>
+                            </item>
+						</variants>				
+					</item>
+				</items>
+			</section>
+		</sections>
+	</settings>
+
+	<language_variables> 
+		<item lang="en" id="ct_faq">FAQ Addon by CartTuning</item>
+		<item lang="en" id="faq">FAQ</item>
+		<item lang="en" id="ct_faq_page_product_edit">FAQ</item>
+		<item lang="en" id="ct_faq_side">Side</item>
+		<item lang="en" id="ct_faq_static">Static</item>
+		<item lang="en" id="ct_faq_grey">Grey</item>
+		<item lang="en" id="ct_faq_blue">Blue</item>
+		<item lang="en" id="ct_faq_line">Line</item>
+		<item lang="en" id="ct_faq_shadow">Shadow</item>
+		<item lang="en" id="ct_faq_bubble">Bubble</item>
+		<item lang="en" id="ct_faq_slide">Slide</item>
+		<item lang="en" id="type_display">Theme display block</item>
+		<item lang="en" id="block_ct_faq">FAQ Addon by CartTuning</item>
+		<item lang="en" id="block_ct_faq_description">FAQ</item>
+		<item lang="en" id="add_ct_faq">Add Categories FAQ</item>
+		<item lang="en" id="add_faq_and_close">Add Categories FAQ And Close</item>
+		<item lang="en" id="ct_faq_questions">Questions</item>
+		<item lang="en" id="ct_faq_new_category">Add FAQ Category</item>
+		<item lang="en" id="ct_faq_editing_category">Edit FAQ Category</item>
+		<item lang="en" id="ct_faq_menu_description">Manage the set of answers to frequently asked questions.</item>
+		<item lang="en" id="ct_faq_category_name">Category Name</item>
+		<item lang="en" id="ct_faq_categories">FAQ Categories</item>
+		<item lang="en" id="ct_anchor">Anchor</item>
+		<item lang="en" id="ct_visible">Open Question</item>
+        <item lang="en" id="ct_faq_group_questions">Add group of questions</item>
+        <item lang="en" id="ct_faq_edit_group_questions">Edit questions</item>
+        <item lang="en" id="ct_faq_global_questions">Add global questions</item>
+        <item lang="en" id="ct_faq_all_global_questions">All global questions</item>
+        <item lang="en" id="ct_faq_global">Global questions</item>
+        <item lang="en" id="ct_faq_local">Local questions</item>
+        <item lang="en" id="ct_faq_assigned_for">Assigned for </item>
+        <item lang="en" id="ct_faq_question_front">Question</item>
+        <item lang="en" id="ct_faq_answer_front">Answer</item>
+        <item lang="en" id="ct_faq_export">Export</item>
+        <item lang="en" id="ct_faq_import">Import</item>
+        <item lang="en" id="ct_faq_export_questions">Export questions</item>
+        <item lang="en" id="ct_faq_import_questions">Import questions</item>
+        <item lang="en" id="tt_addons_ct_faq_views_ct_faq_manage_questions_ct_anchor">For link to question</item>
+        <item lang="en" id="tt_addons_ct_faq_views_ct_faq_manage_questions_ct_visible">Open the question after the page loading</item>
+
+        <item lang="el" id="ct_faq">FAQ Addon by CartTuning</item>
+        <item lang="el" id="faq">FAQ</item>
+        <item lang="el" id="ct_faq_page_product_edit">FAQ</item>
+        <item lang="el" id="ct_faq_side">Side</item>
+        <item lang="el" id="ct_faq_static">Static</item>
+        <item lang="el" id="ct_faq_grey">Grey</item>
+        <item lang="el" id="ct_faq_blue">Blue</item>
+        <item lang="el" id="ct_faq_line">Line</item>
+        <item lang="el" id="ct_faq_shadow">Shadow</item>
+        <item lang="el" id="ct_faq_bubble">Bubble</item>
+        <item lang="el" id="ct_faq_slide">Slide</item>
+        <item lang="el" id="type_display">Theme display block</item>
+        <item lang="el" id="block_ct_faq">FAQ Addon by CartTuning</item>
+        <item lang="el" id="block_ct_faq_description">FAQ</item>
+        <item lang="el" id="add_ct_faq">Add Categories FAQ</item>
+        <item lang="el" id="add_faq_and_close">Add Categories FAQ And Close</item>
+        <item lang="el" id="ct_faq_questions">Questions</item>
+        <item lang="el" id="ct_faq_new_category">Add FAQ Category</item>
+        <item lang="el" id="ct_faq_editing_category">Edit FAQ Category</item>
+        <item lang="el" id="ct_faq_menu_description">Manage the set of answers to frequently asked questions.</item>
+        <item lang="el" id="ct_faq_category_name">Category Name</item>
+        <item lang="el" id="ct_faq_categories">FAQ Categories</item>
+        <item lang="el" id="ct_anchor">Anchor</item>
+        <item lang="el" id="ct_visible">Open Question</item>
+        <item lang="el" id="ct_faq_group_questions">Add group of questions</item>
+        <item lang="el" id="ct_faq_edit_group_questions">Edit questions</item>
+        <item lang="el" id="ct_faq_global_questions">Add global questions</item>
+        <item lang="el" id="ct_faq_all_global_questions">All global questions</item>
+        <item lang="el" id="ct_faq_global">Global questions</item>
+        <item lang="el" id="ct_faq_local">Local questions</item>
+        <item lang="el" id="ct_faq_assigned_for">Assigned for </item>
+        <item lang="el" id="ct_faq_question_front">Question</item>
+        <item lang="el" id="ct_faq_answer_front">Answer</item>
+        <item lang="el" id="ct_faq_export">Export</item>
+        <item lang="el" id="ct_faq_import">Import</item>
+        <item lang="el" id="ct_faq_export_questions">Export questions</item>
+        <item lang="el" id="ct_faq_import_questions">Import questions</item>
+        <item lang="el" id="tt_addons_ct_faq_views_ct_faq_manage_questions_ct_anchor">For link to question</item>
+        <item lang="el" id="tt_addons_ct_faq_views_ct_faq_manage_questions_ct_visible">Open the question after the page loading</item>
+
+    </language_variables>
+</addon>

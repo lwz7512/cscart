@@ -44,8 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return array(CONTROLLER_STATUS_REDIRECT, "auth.login_form?return_url=" . urlencode($_REQUEST['return_url']));
         }
 
-//        PC::debug('$dispatch_extra: '.$dispatch_extra, 'checkout');//product is
-
         // Add to cart button was pressed for single product on advanced list
         if (!empty($dispatch_extra)) {
             if (empty($_REQUEST['product_data'][$dispatch_extra]['amount'])) {
@@ -58,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
+        PC::debug('product check start...', 'add_to_cart');
 //>>>>>>>>>>>>>>>>>> start exist product check <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         //FIXME, check if the product has already in cart
         $current_product_id = '';
@@ -79,15 +78,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         }
 //>>>>>>>>>>>>>>>>>>> end of exist product check <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+        PC::debug('product check end...', 'add_to_cart');
         $prev_cart_products = empty($cart['products']) ? array() : $cart['products'];
         fn_add_product_to_cart($_REQUEST['product_data'], $cart, $auth);
+        PC::debug('product added to cart...', 'add_to_cart');
         fn_save_cart_content($cart, $auth['user_id']);
-
+        PC::debug('cart saved...', 'add_to_cart');
         $previous_state = md5(serialize($cart['products']));
         $cart['change_cart_products'] = true;
         fn_calculate_cart_content($cart, $auth, 'S', true, 'F', true);
-
+        PC::debug('cart calcualted...', 'add_to_cart');
         if (md5(serialize($cart['products'])) != $previous_state && empty($cart['skip_notification'])) {
             $product_cnt = 0;
             $added_products = array();
