@@ -70,7 +70,8 @@ function fn_trip_agenda_pre_add_to_cart($product_data, &$cart, $auth, $update){
 
     $agenda_id = '0';
     foreach($product_data as $id => $value){
-        $agenda_id = $value['agenda'];
+        if(isset($value['agenda']))
+            $agenda_id = $value['agenda'];
     }
     $cart['agenda'] = fn_get_one_agenda($agenda_id);//save agenda in cart for later save
 

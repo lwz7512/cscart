@@ -45,7 +45,7 @@ class Orders extends \Tygh\Api\Entities\Orders
      * @param array $params:
      * user_id => 1,
      * payment_id => 1,
-     * products =>array("1"=>array('product_id'=>1, 'amount'=1)),
+     * products =>array("1"=>array('product_id'=>1, 'amount'=1, 'agenda'=>1)),
      *
      * option param:
      * payment_info => array()
