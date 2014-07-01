@@ -26,6 +26,10 @@ class Faqs  extends AEntity {
             $faqs = fn_get_faqs_data($thread['thread_id']);
         }
 
+        if(empty($faqs)){//FIXME, return [] when no faqs @2014/07/01
+            $faqs = array();
+        }
+
         return array(
             'status' => Response::STATUS_OK,
             'data' => $faqs
@@ -58,8 +62,8 @@ class Faqs  extends AEntity {
             $faq['thread_id'] = $thread_id;
             fn_add_faq($faq, $faq_message);
         } else {//if the product has no question before
-            $faq_data['thread_id'] = db_query('INSERT INTO ?:faq ?e', $faq);
-            fn_add_faq($faq_data, $faq_message);
+            $faq['thread_id'] = db_query('INSERT INTO ?:faq ?e', $faq);
+            fn_add_faq($faq, $faq_message);
         }
 
         return array(

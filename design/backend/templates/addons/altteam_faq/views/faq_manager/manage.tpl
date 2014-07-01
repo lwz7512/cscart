@@ -16,17 +16,6 @@
     {include file="common/tabsbox.tpl" content=$smarty.capture.tabsbox active_tab=$faq_object_types.$object_type track=true}
 {/capture}
 
-{capture name="buttons"}
-    {if $faq_data}
-        {capture name="tools_list"}
-            <li>{btn type="delete_selected" dispatch="dispatch[faq.delete_faqs]" form="update_faqs_form"}</li>
-        {/capture}
-        {dropdown content=$smarty.capture.tools_list}
-
-        {include file="buttons/save.tpl" but_name="dispatch[faq.update_faqs]" but_role="submit-link" but_target_form="update_faqs_form"}
-    {/if}
-{/capture}
-
 {capture name="add_new_faq_faq"}
 
     <form action="{""|fn_url}" method="post" name="add_faq_form" class="form-horizontal form-edit ">
@@ -78,6 +67,17 @@
         </div>
     </form>
 
+{/capture}
+
+{capture name="buttons"}
+    {if $faq_data}
+        {capture name="tools_list"}
+            <li>{btn type="delete_selected" dispatch="dispatch[faq.delete_faqs]" form="update_faqs_form"}</li>
+        {/capture}
+        {dropdown content=$smarty.capture.tools_list}
+
+        {include file="buttons/save.tpl" but_name="dispatch[faq.update_faqs]" but_role="submit-link" but_target_form="update_faqs_form"}
+    {/if}
 {/capture}
 
 {*{if $faq_data}*}
