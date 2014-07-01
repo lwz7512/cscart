@@ -33,7 +33,35 @@ class Faqs  extends AEntity {
 
     }
 
+    /**
+     * create question by post
+     *
+     * @param array $params
+     * @return array|Response
+     */
     public function create($params){
+        $faq = array(
+            'type' => 'E',
+            'object_type' => 'p',
+            'object_id' => $params['object_id']//product id
+        );
+        $faq_message = array(
+            'name' => $params['name'],//user name
+            'email' => $params['email'],
+            'message' => $params['message'],
+            'user_id' => $params['user_id']
+        );
+
+        $thread_id = db_get_field("SELECT thread_id FROM ?:faq WHERE object_id = ?i AND object_type = ?s", $params['object_id'], 'p');
+
+        if (!empty($thread_id)) {//if the product has one question, then use this thread
+            $faq['thread_id'] = $thread_id;
+            fn_add_faq($faq, $faq_message);
+        } else {//if the product has no question before
+            $faq_data['thread_id'] = db_query('INSERT INTO ?:faq ?e', $faq);
+            fn_add_faq($faq_data, $faq_message);
+        }
+
         return array(
             'status' => Response::STATUS_OK,
             'data' => array(
@@ -65,14 +93,15 @@ class Faqs  extends AEntity {
     public function privileges()
     {
         return array(
-            'index' => true
+            'index' => true,
+            'create' => true
         );
     }
 
     private function trace($msg)
     {
         $logger = Logger::instance();
-        $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/debug.log';
+        $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/running.log';
 
         $logger->write($msg);
     }

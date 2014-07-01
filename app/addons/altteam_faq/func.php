@@ -13,6 +13,7 @@
 use Tygh\Registry;
 use Tygh\Http;
 use Tygh\Mailer;
+use Tygh\Logger;
 
 if ( !defined('BOOTSTRAP') ) { die('Access denied'); }
 
@@ -402,11 +403,17 @@ function fn_get_message_prop($m_id)
 	return db_get_row("SELECT status, type FROM ?:faq_messages WHERE message_id = ?i", $m_id);
 }
 
+/**
+ * add faq including question and answer
+ *
+ * @param $faq_data
+ * @param $faq_message
+ * @return array
+ */
 function fn_add_faq($faq_data, $faq_message)
 {
 	if (fn_check_availible_thread($faq_data['thread_id'])) {
 		$object = fn_faq_get_object_by_thread($faq_data['thread_id']);
-
 		if (empty($object)) {
 			fn_set_notification('E', __('error'), __('cant_find_thread'));
 			return array(CONTROLLER_STATUS_REDIRECT, $_REQUEST['redirect_url'] . $suffix);
@@ -430,6 +437,9 @@ function fn_add_faq($faq_data, $faq_message)
 			}
 		} else {
 			if (fn_check_faq_id_by_thread_id($faq_data['faq_id'], $faq_data['thread_id'])) {
+
+                PC::debug($faq_message, 'fn_add_faq');
+
 				fn_insert_new_message($faq_message, $faq_data['faq_id']);
                 //FIXME, check status first @2014/06/30
 				if (isset($faq_data['status']) == 'A') {
@@ -618,7 +628,7 @@ function fn_get_faq_upgrate()
 function fn_faq_trace($msg)
 {
     $logger = Logger::instance();
-    $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/debug.log';
+    $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/running.log';
 
     $logger->write($msg);
 }

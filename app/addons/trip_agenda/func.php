@@ -200,7 +200,8 @@ function fn_update_trip_agenda($auth, $product_id, $from_time, $to_time, $agenda
             'from_time' => strtotime($from_time),//second to formatted date
             'to_time' => strtotime($to_time),//second to formatted date
             'timestamp' => TIME,
-            'author' => $auth['user_id']
+            'author' => $auth['user_id'],
+            'status' => 'A'
         );
 
         db_query("REPLACE INTO ?:trip_agenda ?e", $agenda);
