@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$faq_data['object_type']="p";
 		$faq_data['object_id']=$_REQUEST['product_id'];
 
-		if ($faq_data['company_id']) {
+        //FIXME, add undefined test @2014/07/02
+		if (isset($faq_data['company_id'])) {
 			$thread_id = db_get_field("SELECT thread_id FROM ?:faq WHERE object_id = ?i AND company_id = ?i", $faq_data['object_id'], $faq_data['company_id']);
 		} else {
 			$thread_id = db_get_field("SELECT thread_id FROM ?:faq WHERE object_id = ?i", $faq_data['object_id']);
@@ -54,7 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						$faq_id = db_get_field("SELECT faq_id FROM ?:faq_messages WHERE message_id = ?i", $p_id);
 						fn_send_answer_email($data, $faq_id);
 					}
-					$data['status'] = $data['status'] ? $data['status'] : 'A';
+                    //FIXME, add undefined test @2014/07/02
+					$data['status'] = isset($data['status']) ? $data['status'] : 'A';
 					fn_check_to_aprove_faq($data['status'], $p_id);
 				}
 			}

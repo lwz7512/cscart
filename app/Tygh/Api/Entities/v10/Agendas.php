@@ -43,7 +43,7 @@ class Agendas extends AEntity {
 
         return array(
             'status' => Response::STATUS_OK,
-            'data' => array(
+            'data' => array(//use this structure for bootstrap-calendar ajax call
                 "success" => 1,
                 "result" => $agendas
             )
@@ -90,7 +90,7 @@ class Agendas extends AEntity {
     private function trace($msg)
     {
         $logger = Logger::instance();
-        $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/debug.log';
+        $logger->logfile = $_SERVER['DOCUMENT_ROOT'].'/logs'.'/running.log';
 
         $logger->write($msg);
     }
