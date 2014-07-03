@@ -65,7 +65,17 @@ function fn_trip_build_get_product_data_post(&$product_data, $auth, $preview, $l
 function fn_trip_build_update_product_post($product_data, $product_id, $lang_code, $can_update)
 {
 
+    $company_id = Registry::get('runtime.company_id');
+//    PC::debug('company_id: '.$company_id, 'update_product_post');
+
+    if($company_id && ACCOUNT_TYPE == 'vendor'){//when vendor submit the product
+        $sql = "UPDATE ?:products SET status = 'D' WHERE product_id = ?i";//deactive the product
+        db_query($sql, $product_id);
+//        PC::debug("product: ".$product_id." is disabled for vendor: ".$company_id, 'update_product_post');
+    }
+
     if(empty($product_data['address'])) return true;
+    if(empty($product_data['company_id'])) return true;
 
     $trip_obj = array(
         'product_id' => $product_id,
