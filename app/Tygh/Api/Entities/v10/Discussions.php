@@ -42,8 +42,8 @@ class Discussions  extends AEntity {
     public function create($params){
 
         $object_id = $params['object_id'];
-        $thread_id = db_get_field("SELECT thread_id FROM ?:discussion WHERE object_id = ?i", $object_id);
-        if(empty($thread_id)){
+        $discussion = db_get_row("SELECT * FROM ?:discussion WHERE object_type = 'P' AND object_id = ?i", $object_id);
+        if(empty($discussion)){
             $discussion = array(
                 'object_id' => intval($object_id),
                 'object_type' => 'P',
@@ -51,6 +51,11 @@ class Discussions  extends AEntity {
             );
             db_query("INSERT INTO ?:discussion ?e", $discussion);
             $thread_id = db_get_field("SELECT thread_id FROM ?:discussion WHERE object_id = ?i", $object_id);
+        }else{//make sure the type is B
+            if($discussion['type']=='D'){
+                db_query("UPDATE ?:discussion SET type = 'B' WHERE object_id = ?i", $object_id);
+            }
+            $thread_id = $discussion['thread_id'];
         }
         $ip = fn_get_ip();
 
