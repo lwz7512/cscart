@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         fn_add_faq($faq_data, $faq_message);
                     } else {
                         $faq = array();
-                        $faq['type'] = "E";
+                        $faq['type'] = "E";//enable
                         $faq['object_type'] = "p";
                         $faq['object_id'] = $object_id;
                         $faq_data['thread_id'] = db_query('INSERT INTO ?:faq ?e', $faq);
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }else{//FIXME, frontend product details/new post from blank
                 $object_id = $_REQUEST['object_id'];
                 $faq = array();
-                $faq['type'] = "E";
+                $faq['type'] = "E";//enable
                 $faq['object_type'] = "p";
                 $faq['object_id'] = $object_id;
                 $faq_data['thread_id'] = db_query('INSERT INTO ?:faq ?e', $faq);

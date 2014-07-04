@@ -18,5 +18,11 @@ $schema['controllers']['faq'] = array (
     'permissions' => true,
 );
 
+$schema['controllers']['tools'] = array (
+    'modes' => array(
+    ),
+    'permissions' => true,
+);
+
 
 return $schema;

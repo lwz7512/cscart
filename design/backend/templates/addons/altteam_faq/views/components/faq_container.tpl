@@ -2,7 +2,8 @@
 	{assign var="current_redirect_url" value="`$config.current_url|escape:url`&amp;selected_section=faq"}
 
 	<input type="hidden" name="redirect_url" value="{$config.current_url}&amp;selected_section=faq" />
-	
+
+    <!-- javascript !!!-->
 	{script src="js/addons/altteam_faq/faq.js"}
 
 	{include file="common/pagination.tpl" save_current_page=true save_current_url=true}
