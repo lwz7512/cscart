@@ -143,6 +143,7 @@
             {dropdown content=$smarty.capture.tools_list}
             {if $products}
                 {include file="buttons/save.tpl" but_name="dispatch[products.m_update]" but_role="submit-link" but_target_form="manage_products_form"}
+                {*{include file="buttons/button.tpl" but_text="Apply Online" but_name="dispatch[products.apply_online]" but_role="submit-link" but_target_form="manage_products_form"}*}
             {/if}
         {/capture}{* end of buttons *}
 
@@ -168,11 +169,11 @@
 {/capture}
 
 {include file="common/mainbox.tpl"
-title=__("products")
-content=$smarty.capture.mainbox
-title_extra=$smarty.capture.title_extra
-adv_buttons=$smarty.capture.adv_buttons
-select_languages=true
-buttons=$smarty.capture.buttons
-sidebar=$smarty.capture.sidebar
-content_id="manage_products"}
+        title=__("products")
+        content=$smarty.capture.mainbox
+        title_extra=$smarty.capture.title_extra
+        adv_buttons=$smarty.capture.adv_buttons
+        select_languages=true
+        buttons=$smarty.capture.buttons
+        sidebar=$smarty.capture.sidebar
+        content_id="manage_products"}

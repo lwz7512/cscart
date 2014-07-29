@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<addon scheme="2.0">
+	<id>messages</id>
+	<name>Message for customer</name>
+	<description>message list send by system</description>
+	<version>1.0</version>
+	<priority>100600</priority>
+	<status>active</status>
+    <has_icon>Y</has_icon>
+    <default_language>en</default_language>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <translations>
+        <item for="name" lang="zh">消息列表</item>
+        <item for="description" lang="zh">系统发送消息列表</item>
+    </translations>
+    <language_variables>
+        <item lang="en" id="message_box">Message Box</item>
+        <item lang="zh" id="message_box">收件箱</item>
+    </language_variables>
+</addon>
