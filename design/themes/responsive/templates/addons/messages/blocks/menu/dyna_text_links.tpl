@@ -8,20 +8,22 @@
     {/foreach}
 </ul>
 
-<script type="text/javascript">
-    (function(_, $) {
+{if $smarty.session.auth.user_id}
+    <script type="text/javascript">
+        (function(_, $) {
 
-        $(document).ready(function() {
+            $(document).ready(function() {
 
-            $.ceAjax('request', fn_url('messages.count'), {
-                callback: function(data) {
-                    if(data['count_unread']>0){
-                        $('#message-box').append('('+data['count_unread']+')');
+                $.ceAjax('request', fn_url('messages.count'), {
+                    callback: function(data) {
+                        if(data['count_unread']>0){
+                            $('#message-box').append('('+data['count_unread']+')');
+                        }
                     }
-                }
-            });//end of ajax call
+                });//end of ajax call
 
-        });//end of ready handler
+            });//end of ready handler
 
-    }(Tygh, Tygh.$));//end of module
-</script>
+        }(Tygh, Tygh.$));//end of module
+    </script>
+{/if}
