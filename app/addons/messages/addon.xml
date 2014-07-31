@@ -16,5 +16,7 @@
     <language_variables>
         <item lang="en" id="message_box">Message Box</item>
         <item lang="zh" id="message_box">收件箱</item>
+        <item lang="en" id="dyna_text_links">Dynamic Text Links</item>
+        <item lang="zh" id="dyna_text_links">动态文字链接</item>
     </language_variables>
 </addon>
