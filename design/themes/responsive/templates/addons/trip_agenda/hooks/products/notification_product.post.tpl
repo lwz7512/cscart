@@ -1,3 +1,5 @@
+{* in popup cart dialog ...*}
+
 {if !empty($smarty.session.cart.agenda)}
     <div class="ty-product-notification__item clearfix">
         {assign var="from_time" value=$smarty.session.cart.agenda.from_time}

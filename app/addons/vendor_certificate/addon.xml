@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<addon scheme="2.0">
+    <id>vendor_certificate</id>
+    <name>Vendor Certificate</name>
+    <description>describe vendor certificate in icon</description>
+    <version>1.0</version>
+    <priority>100601</priority>
+    <status>active</status>
+    <has_icon>Y</has_icon>
+    <default_language>en</default_language>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <translations>
+        <item for="name" lang="zh">厂商认证</item>
+        <item for="description" lang="zh">厂商资质认证</item>
+    </translations>
+    <language_variables>
+        <item id="certificate" lang="en">Certificate</item>
+        <item id="certificate" lang="zh">资质</item>
+
+        <item id="manage_certificate" lang="en">Manage Certificate</item>
+        <item id="manage_certificate" lang="zh">资质管理</item>
+
+        <item id="add_certificate" lang="en">Add Certificate</item>
+        <item id="add_certificate" lang="zh">添加资质</item>
+
+        <item id="edit_certificate" lang="en">Edit Certificate</item>
+        <item id="edit_certificate" lang="zh">编辑资质</item>
+
+        <item id="certificate_menu_description" lang="en">Modify vendor qualification.</item>
+        <item id="certificate_menu_description" lang="zh">设定厂商资质.</item>
+
+    </language_variables>
+</addon>

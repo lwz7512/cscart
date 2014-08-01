@@ -17,7 +17,15 @@ class Messages extends AEntity {
 
     public function index($id = 0, $params = array()){
 
+        $user_id = $params['user_id'];
+
         $messages = array();
+
+        if(!empty($params['msg_id'])){
+            $messages[] = fn_get_message($params['msg_id']);
+        }else{
+            $messages = fn_get_message_list($user_id);
+        }
 
         return array(
             'status' => Response::STATUS_OK,
