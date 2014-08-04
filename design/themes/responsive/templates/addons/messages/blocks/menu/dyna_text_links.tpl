@@ -8,7 +8,7 @@
     {/foreach}
 </ul>
 
-{if $smarty.session.auth.user_id}
+{if $smarty.session.auth.user_id && !empty($addons.messages)}
     <script type="text/javascript">
         (function(_, $) {
 
