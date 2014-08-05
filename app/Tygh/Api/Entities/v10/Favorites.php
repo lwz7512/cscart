@@ -92,13 +92,13 @@ class Favorites extends AEntity {
         );
 
         fn_extract_cart_content($wish_list, $auth['user_id'], 'W');//fill original wishlist
-        fn_add_product_to_wishlist($product_data, $wish_list, $auth);//add product to wishlist
+        $wishlist_ids = fn_add_product_to_wishlist($product_data, $wish_list, $auth);//add product to wishlist
         fn_save_cart_content($wish_list, $auth['user_id'], 'W');//save wishlist to database: user_session_products table
 
         return array(
             'status' => Response::STATUS_OK,
             'data' => array(
-                'result' => 1
+                'result' => $wishlist_ids[0]
             )
         );
     }
