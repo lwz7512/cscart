@@ -69,7 +69,12 @@
 
             </div>
             {* if has been certificated *}
-            <img src="{$images_dir}/icons/star.jpg">
+            {__("certificate")}: &nbsp;&nbsp;
+            {if $company_data.certificate}
+                <img src="{$images_dir}/icons/medal_gold_2.png">
+            {else}
+                None
+            {/if}
         </div>
 
         <div class="ty-company-detail__categories">

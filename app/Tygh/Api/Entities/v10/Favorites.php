@@ -32,14 +32,20 @@ class Favorites extends AEntity {
         if (!empty($products)) {
             foreach ($products as $k => $v) {
 
+                $auth = array(
+                    'usergroup_ids' => array()
+                );
+
                 $product_name = fn_get_product_name($v['product_id']);
                 $product_main_pair = fn_get_image_pairs($v['product_id'], 'product', 'M');
+                $product_price = fn_get_product_price($v['product_id'],1, $auth);
 
                 $products[$k]['product'] = $product_name;
                 $products[$k]['image_path'] = $product_main_pair['detailed']['image_path'];
                 $products[$k]['display_subtotal'] = $products[$k]['price'] * $v['amount'];
                 $products[$k]['display_amount'] = $v['amount'];
                 $products[$k]['cart_id'] = $k;
+                $products[$k]['price'] = $product_price;
 
                 unset($products[$k]['user_id']);
                 unset($products[$k]['type']);
@@ -79,9 +85,7 @@ class Favorites extends AEntity {
         );
 
         $product_data = array(
-            $params['product_id'] => array(
-                'amount' => $params['amount']
-            )
+            $params['product_id'] => array()
         );
         $auth = array(
             'user_id' => $params['user_id']
