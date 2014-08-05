@@ -41,7 +41,6 @@ function fn_wishlist_user_init(&$auth, &$user_info, &$first_init)
 {
 //    FIXME, remove first_init flag....for realtime load wishlist from database;
 
-//    if ($first_init == true) {
         $user_id = $auth['user_id'];
         $user_type = 'R';
         if (empty($user_id) && fn_get_session_data('cu_id')) {
@@ -50,15 +49,15 @@ function fn_wishlist_user_init(&$auth, &$user_info, &$first_init)
         }
 
         if(class_exists("PC")){
-            PC::debug("user_init...", "wishlist");
+            //PC::debug("user_init...", "wishlist");
         }
 
+//      FIXME, reinit wishlist...for synchronize with database;
+        $_SESSION['wishlist'] = array();
         fn_extract_cart_content($_SESSION['wishlist'], $user_id, 'W', $user_type);
 
         return true;
-//    }
 
-//    return false;
 }
 
 /**

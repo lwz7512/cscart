@@ -20,7 +20,40 @@ class Favorites extends AEntity {
 
         $user_id = $id;
 
+        $wish_list = array(
+            'products' => array()
+        );
+
+        fn_extract_cart_content($wish_list, $user_id, 'W');//fill original wishlist
+        $products = !empty($wish_list['products']) ? $wish_list['products'] : array();
+
         $favorites = array();
+
+        if (!empty($products)) {
+            foreach ($products as $k => $v) {
+
+                $product_name = fn_get_product_name($v['product_id']);
+                $product_main_pair = fn_get_image_pairs($v['product_id'], 'product', 'M');
+
+                $products[$k]['product'] = $product_name;
+                $products[$k]['image_path'] = $product_main_pair['detailed']['image_path'];
+                $products[$k]['display_subtotal'] = $products[$k]['price'] * $v['amount'];
+                $products[$k]['display_amount'] = $v['amount'];
+                $products[$k]['cart_id'] = $k;
+
+                unset($products[$k]['user_id']);
+                unset($products[$k]['type']);
+                unset($products[$k]['user_type']);
+                unset($products[$k]['item_id']);
+                unset($products[$k]['item_type']);
+                unset($products[$k]['session_id']);
+                unset($products[$k]['ip_address']);
+                unset($products[$k]['product_options']);
+                unset($products[$k]['extra']);
+
+                $favorites[] = $products[$k];
+            }
+        }
 
         return array(
             'status' => Response::STATUS_OK,
@@ -66,7 +99,25 @@ class Favorites extends AEntity {
         );
     }
 
+    /**
+     * delete selected product
+     *
+     * @param int $id
+     * @param array $params
+     * @return array|Response
+     */
     public function update($id, $params){
+
+        $wish_list = array(
+            'products' => array()
+        );
+
+        fn_extract_cart_content($wish_list, $params['user_id'], 'W');//fill original wishlist
+
+        fn_delete_wishlist_product($wish_list, $id);
+
+        fn_save_cart_content($wish_list, $params['user_id'], 'W');
+
         return array(
             'status' => Response::STATUS_OK,
             'data' => array(
@@ -77,7 +128,6 @@ class Favorites extends AEntity {
 
 
     public function delete($id){
-
 
 
         return array(
@@ -91,9 +141,9 @@ class Favorites extends AEntity {
 
     public function privileges(){
         return array(
-//            'index' => true,
+            'index' => true,
             'create' => true,
-            'delete' => true
+            'update' => true
         );
     }
 
