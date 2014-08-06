@@ -71,7 +71,7 @@
             {* if has been certificated *}
             {__("certificate")}: &nbsp;&nbsp;
             {if $company_data.certificate}
-                <img src="{$images_dir}/icons/medal_gold_2.png">
+                <img src="{$images_dir}/addons/vendor_certificate/medal_gold_2.png">
             {else}
                 None
             {/if}
