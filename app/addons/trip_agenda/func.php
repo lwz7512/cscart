@@ -243,7 +243,8 @@ function fn_get_trip_agendas_by_company($company_id){
  */
 function fn_get_trip_agendas_by_product_period($product_id, $from_time, $to_time){
 
-    $sql = "SELECT t.agenda_id, DATE_FORMAT(FROM_UNIXTIME(t.from_time),'%m/%d/%Y') as from_time ";
+    $sql = "SELECT t.agenda_id, DATE_FORMAT(FROM_UNIXTIME(t.from_time),'%m/%d/%Y') as from_time, ";
+    $sql .= "DATE_FORMAT(FROM_UNIXTIME(t.to_time),'%m/%d/%Y') as to_time ";//no comma
     $sql .= "FROM ?:trip_agenda t ";
     $sql .= "WHERE t.product_id = ?i ";
     $sql .= "AND t.from_time > ?i AND t.to_time < ?i AND t.status = 'A'";
