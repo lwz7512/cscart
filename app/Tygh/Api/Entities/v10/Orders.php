@@ -32,6 +32,14 @@ class Orders extends \Tygh\Api\Entities\Orders
 
         $result = parent::index($id, $params);
 
+        foreach($result['data']['orders'] as &$order){
+            $order_id = $order['order_id'];
+            $row = db_get_row("SELECT product_id, extra FROM ?:order_details WHERE order_id = ?i", $order_id);
+            $order_extra = unserialize($row['extra']);
+            $order['product'] = $order_extra['product'];
+            $order['product_id'] = $row['product_id'];
+        }
+
         if (!$id) {
             $result['data'] = $result['data']['orders'];
         }
