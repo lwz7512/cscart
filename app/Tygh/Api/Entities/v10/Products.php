@@ -26,7 +26,12 @@ class Products extends \Tygh\Api\Entities\Products
 
         if (!empty($id)) {
             $product = &$result['data'];
-            $product['image_path'] = $product['main_pair']['detailed']['image_path'];
+
+            if(isset($product['main_pair'])){
+                $product['image_path'] = $product['main_pair']['detailed']['image_path'];
+            }else{
+                $product['image_path'] = "";
+            }
 
             unset($product['min_items_in_box']);
             unset($product['max_items_in_box']);
