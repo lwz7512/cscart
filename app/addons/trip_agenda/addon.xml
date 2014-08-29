@@ -15,7 +15,7 @@
     </translations>
     <language_variables>
         <item id="agenda" lang="en">Agenda</item>
-        <item id="agenda" lang="zh">排程</item>
+        <item id="agenda" lang="zh">排期</item>
 
         <item id="manage_agenda" lang="en">Manage Agenda</item>
         <item id="manage_agenda" lang="zh">日期安排</item>

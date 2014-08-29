@@ -14,11 +14,15 @@
         <item for="description" lang="zh">添加旅游属性到产品</item>
     </translations>
     <language_variables>
+        <item lang="en" id="trip_page">Trip Page</item>
+        <item lang="zh" id="trip_page">旅游产品配置</item>
         <item lang="en" id="trip_build_characters">Trip Page Features</item>
         <item lang="zh" id="trip_build_characters">旅游产品特色</item>
         <item lang="en" id="trip_build_must_known">Trip Page Must Known</item>
         <item lang="zh" id="trip_build_must_known">旅游须知</item>
         <item lang="en" id="trip_build_notes">Trip Page Notes</item>
         <item lang="zh" id="trip_build_notes">旅游注意事项</item>
+        <item lang="en" id="trip_build_map">Map</item>
+        <item lang="zh" id="trip_build_map">地图</item>
     </language_variables>
 </addon>

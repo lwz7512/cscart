@@ -127,7 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             unset($_REQUEST['redirect_url']);
         }
-    }
+
+    }//end of add
 
     //
     // Update products quantity in the cart
@@ -154,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cart['recalculate'] = true;
 
         $_suffix = ".$_REQUEST[redirect_mode]";
-    }
+    }//end of update
 
     //
     // Estimate shipping cost
@@ -196,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $_suffix = '.' . (empty($_REQUEST['current_mode']) ? 'cart' : $_REQUEST['current_mode']) . '?show_shippings=Y';
-    }
+    }//end of shipping_estimation
 
     if ($mode == 'update_shipping') {
         if (!empty($_REQUEST['shipping_ids'])) {
@@ -335,7 +336,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $_suffix = '.checkout' . $_action . '?edit_step=' . $step;
-    }
+
+    }//end of customer_info
 
     if ($mode == 'place_order') {
         // Prevent unauthorized access
@@ -418,7 +420,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             return array(CONTROLLER_STATUS_REDIRECT, "checkout.cart");
         }
-    }
+    }//end of place_order
 
     if ($mode == 'update_steps') {
         $user_data = !empty($_REQUEST['user_data']) ? $_REQUEST['user_data'] : array();
@@ -577,7 +579,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             return array(CONTROLLER_STATUS_REDIRECT, 'checkout.checkout?edit_step=step_three');
         }
-    }
+    }//end of update_steps
 
     if ($mode == 'create_profile') {
 
@@ -605,9 +607,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     return array(CONTROLLER_STATUS_OK, "checkout$_suffix");
-}
 
-//
+}//end of POST
+
+
+//======================== start GET ===============================================
 // Delete discount coupon
 //
 if ($mode == 'delete_coupon') {
@@ -963,12 +967,6 @@ if ($mode == 'cart') {
         $edit_step = 'step_four';
     }
 
-    // If we're on shipping step and shipping is not required, switch to payment step
-    //FIXME
-    /*if ($edit_step == 'step_three' && $cart['shipping_required'] != true) {
-        $edit_step = 'step_four';
-    }*/
-
     if (empty($edit_step) || empty($completed_steps[$edit_step])) {
         // If we don't pass step to edit, open default (from settings)
         if (!empty($completed_steps['step_three'])) {
@@ -976,6 +974,12 @@ if ($mode == 'cart') {
         } else {
             $edit_step = !empty($completed_steps['step_one']) ? 'step_two' : 'step_one';
         }
+    }
+
+    // If we're on shipping step and shipping is not required, switch to payment step
+    //FIXME @2014/08/14
+    if ($edit_step == 'step_three' && $cart['shipping_required'] != true) {
+        $edit_step = 'step_four';
     }
 
     if (!empty($_REQUEST['expand_cart'])) {

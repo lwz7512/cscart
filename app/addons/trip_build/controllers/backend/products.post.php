@@ -28,8 +28,7 @@ if($mode == 'add') {
 
 // Add new tab to product edit page both new or update mode
 Registry::set('navigation.tabs.trip_build', array (
-//        'title' => __('trip_page'),
-    'title' => 'Trip page',
+        'title' => __('trip_page'),
     'js' => true
 ));
 

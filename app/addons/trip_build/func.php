@@ -14,8 +14,13 @@
 
 if ( !defined('AREA') ) { die('Access denied'); }
 
+
 use Tygh\Registry;
 use Tygh\Logger;
+use Tygh\ClientInfo;
+
+use GeoIp2\Database\Reader;
+
 
 /**
  * process redundant tab in page: products.update
@@ -24,6 +29,45 @@ use Tygh\Logger;
 function fn_trip_build_dispatch_before_display()
 {
     Registry::del('navigation.tabs.blocks');
+
+    $obj = new ClientInfo();
+    $ip = $obj->GetIP(); //获取访客IP地址。
+//    PC::debug($ip, 'client ip');
+
+    // This creates the Reader object, which should be reused across lookups.
+    $reader = new Reader('/usr/local/share/GeoIP/GeoLite2-City.mmdb');
+
+    try{
+        $record = $reader->city($ip);
+        $location = $record->location->longitude.','.$record->location->latitude;
+
+//        PC::debug($record->country->isoCode . "\n", "geoip"); // 'US'
+//        PC::debug($record->country->name . "\n", "geoip"); // 'United States'
+//        PC::debug($record->country->names['zh-CN'] . "\n", "geoip"); // '美国'
+//
+//        PC::debug($record->mostSpecificSubdivision->name . "\n", "geoip"); // 'Minnesota'
+//        PC::debug($record->mostSpecificSubdivision->isoCode . "\n", "geoip"); // 'MN'
+//
+//        PC::debug($record->city->name . "\n", "geoip"); // 'Minneapolis'
+//
+//        PC::debug($record->postal->code . "\n", "geoip"); // '55455'
+//
+//        PC::debug($record->location->latitude . "\n", "geoip"); // 44.9733
+//        PC::debug($record->location->longitude . "\n", "geoip"); // -93.2323
+
+
+        Registry::get('view')->assign('client_location', $location);//client location
+
+    }catch (Exception $e){
+//        PC::debug("ip not exist in database!", 'geoip_error');
+        Registry::get('view')->assign('client_location', '');//client location
+
+    }
+
+
+
+
+
 }
 
 
@@ -47,6 +91,7 @@ function fn_trip_build_get_product_data_post(&$product_data, $auth, $preview, $l
             'notes' => $trip_data['product_note'],
             'must_known' => $trip_data['product_mustknown'],
             'address' => $trip_data['address'],
+            'location' => $trip_data['location'],
         );
     }
 
@@ -66,12 +111,10 @@ function fn_trip_build_update_product_post($product_data, $product_id, $lang_cod
 {
 
     $company_id = Registry::get('runtime.company_id');
-//    PC::debug('company_id: '.$company_id, 'update_product_post');
 
     if($company_id && ACCOUNT_TYPE == 'vendor'){//when vendor submit the product
         $sql = "UPDATE ?:products SET status = 'D' WHERE product_id = ?i";//deactive the product
         db_query($sql, $product_id);
-//        PC::debug("product: ".$product_id." is disabled for vendor: ".$company_id, 'update_product_post');
     }
 
     if(empty($product_data['address'])) return true;
@@ -85,18 +128,13 @@ function fn_trip_build_update_product_post($product_data, $product_id, $lang_cod
         'product_note' => $product_data['notes'],
         'product_mustknown' => $product_data['must_known'],
         'address' => $product_data['address'],
-        'location' => '',
+        'location' => $product_data['location'],
         'price' => $product_data['price'],
         'price_unit' => '',
         'favorite' => 0,
         'grade' => 0,
     );
-    $result = db_query("REPLACE INTO ?:product_trip ?e", $trip_obj);
-    if($result){
-//        PC::debug('trip product insert success!', 'trip_build');
-    } else {
-//        PC::debug('trip product insert failure!', 'trip_build');
-    }
+    db_query("REPLACE INTO ?:product_trip ?e", $trip_obj);
 
     return true;
 }
@@ -122,22 +160,7 @@ function fn_trip_build_delete_product_post($product_id, $product_deleted)
  *
  * @param $cart
  */
-function fn_trip_build_pre_place_order($cart)
-{
-    trip_build_trace('-------'.basename(__FILE__, '.php').':'.__FUNCTION__.':'.__LINE__.'-------');
-//    foreach($cart as $k=>$v){
-//        trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
-//        if(gettype($v) == 'array'){
-//            trip_build_trace('array-length:'.count($v));//view length
-//            foreach($v as $sub_k=>$sub_v){
-//                if(gettype($sub_v) == 'array'){
-//                    trip_build_trace('---->'.$sub_k.':'.gettype($sub_v));
-//                }else{
-//                    trip_build_trace('---->'.$sub_k.':'.$sub_v);
-//                }
-//            }
-//        }
-//    }
+function fn_trip_build_pre_place_order($cart){
 
     return true;
 }
@@ -156,34 +179,8 @@ function fn_trip_build_pre_add_to_cart($product_data, $cart, $auth, $update)
     trip_build_trace('<======='.basename(__FILE__, '.php').':'.__FUNCTION__.':'.__LINE__.'========>');
 
     trip_build_trace('--------dump $product_data-----------');
-//    foreach($product_data as $k=>$v){
-//        trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
-//        if(gettype($v) == 'array'){
-//            trip_build_trace('array-length:'.count($v));//view length
-//            foreach($v as $sub_k=>$sub_v){
-//                if(gettype($sub_v) == 'array'){
-//                    trip_build_trace('---->'.$sub_k.':'.gettype($sub_v));
-//                }else{
-//                    trip_build_trace('---->'.$sub_k.':'.$sub_v);
-//                }
-//            }
-//        }
-//    }
 
     trip_build_trace('--------dump $cart-----------');
-//    foreach($cart as $k=>$v){
-//        trip_build_trace('key/value:'.$k.'/'.gettype($v).'/'.strval(gettype($v)=='array'?'array':$v));
-//        if(gettype($v) == 'array'){
-//            trip_build_trace('array-length:'.count($v));//view length
-//            foreach($v as $sub_k=>$sub_v){
-//                if(gettype($sub_v) == 'array'){
-//                    trip_build_trace('---->'.$sub_k.':'.gettype($sub_v));
-//                }else{
-//                    trip_build_trace('---->'.$sub_k.':'.$sub_v);
-//                }
-//            }
-//        }
-//    }
 
     return true;
 }
