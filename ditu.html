@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html { height: 90% }
+        body {
+            height: 90%;
+            margin: 0;
+            padding: 0; }
+        #map-canvas { height: 100% }
+    </style>
+    <script type="text/javascript" src="http://ditu.google.cn/maps/api/js?v=3&amp;sensor=false&amp;key=AIzaSyCUV7xLUJyl20lasybf9b6-3woGHOsGrSk&amp;callback=initMaper"></script>
+    <script src="http://maps.gstatic.cn/maps-api-v3/api/js/17/15/main.js"></script>
+    <script type="text/javascript">
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(-34.397, 150.644),
+                zoom: 8
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</head>
+<body>
+    <div id="map-canvas"/>
+</body>
+</html>
