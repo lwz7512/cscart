@@ -8,7 +8,6 @@
 
 use Tygh\Registry;
 
-//PC::debug('current mode:'.$mode, 'products.post');
 
 if($mode == 'add') {
 

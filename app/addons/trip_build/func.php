@@ -32,39 +32,17 @@ function fn_trip_build_dispatch_before_display()
 
     $obj = new ClientInfo();
     $ip = $obj->GetIP(); //获取访客IP地址。
-//    PC::debug($ip, 'client ip');
-
-    // This creates the Reader object, which should be reused across lookups.
-    $reader = new Reader('/usr/local/share/GeoIP/GeoLite2-City.mmdb');
 
     try{
+        $reader = new Reader('/usr/local/share/GeoIP/GeoLite2-City.mmdb');
         $record = $reader->city($ip);
         $location = $record->location->longitude.','.$record->location->latitude;
-
-//        PC::debug($record->country->isoCode . "\n", "geoip"); // 'US'
-//        PC::debug($record->country->name . "\n", "geoip"); // 'United States'
-//        PC::debug($record->country->names['zh-CN'] . "\n", "geoip"); // '美国'
-//
-//        PC::debug($record->mostSpecificSubdivision->name . "\n", "geoip"); // 'Minnesota'
-//        PC::debug($record->mostSpecificSubdivision->isoCode . "\n", "geoip"); // 'MN'
-//
-//        PC::debug($record->city->name . "\n", "geoip"); // 'Minneapolis'
-//
-//        PC::debug($record->postal->code . "\n", "geoip"); // '55455'
-//
-//        PC::debug($record->location->latitude . "\n", "geoip"); // 44.9733
-//        PC::debug($record->location->longitude . "\n", "geoip"); // -93.2323
-
 
         Registry::get('view')->assign('client_location', $location);//client location
 
     }catch (Exception $e){
-//        PC::debug("ip not exist in database!", 'geoip_error');
         Registry::get('view')->assign('client_location', '');//client location
-
     }
-
-
 
 
 

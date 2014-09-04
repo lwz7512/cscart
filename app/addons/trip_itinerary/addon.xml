@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<addon scheme="2.0">
+    <id>trip_itinerary</id>
+    <name>Trip Itinerary</name>
+    <description>trip itinerary create</description>
+    <version>1.0</version>
+    <priority>100606</priority>
+    <status>active</status>
+    <has_icon>Y</has_icon>
+    <default_language>en</default_language>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <translations>
+        <item for="name" lang="zh">旅游行程单</item>
+        <item for="description" lang="zh">为旅游产品创建行程单</item>
+    </translations>
+    <language_variables>
+        <item lang="en" id="trip_itinerary">Trip Itinerary</item>
+        <item lang="zh" id="trip_itinerary">旅游行程单</item>
+        <item lang="en" id="itinerary_title">Itinerary Title</item>
+        <item lang="zh" id="itinerary_title">行程单标题</item>
+        <item lang="en" id="itinerary_days">Itinerary Days</item>
+        <item lang="zh" id="itinerary_days">行程天数</item>
+        <item lang="en" id="itinerary_add_day">Add One Day</item>
+        <item lang="zh" id="itinerary_add_day">添加一天</item>
+        <item lang="en" id="itinerary_day_desc">One Day Description</item>
+        <item lang="zh" id="itinerary_day_desc">当天行程描述</item>
+        <item lang="en" id="itinerary_add_activity">Add One Activity</item>
+        <item lang="zh" id="itinerary_add_activity">添加活动内容</item>
+        <item lang="en" id="itinerary_activity_type">Activity Type</item>
+        <item lang="zh" id="itinerary_activity_type">活动类型</item>
+        <item lang="en" id="simple_description">Simple Description</item>
+        <item lang="zh" id="simple_description">简单描述</item>
+        <item lang="en" id="activity_time">Activity Time</item>
+        <item lang="zh" id="activity_time">活动时间</item>
+        <item lang="en" id="the_x_day">Day x</item>
+        <item lang="zh" id="the_x_day">第 x 天</item>
+
+    </language_variables>
+</addon>

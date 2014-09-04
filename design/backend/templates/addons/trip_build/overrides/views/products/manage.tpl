@@ -1,3 +1,4 @@
+{* override the default product edit page, to clear some useless properties *}
 {capture name="mainbox"}
 
     <form action="{""|fn_url}" method="post" name="manage_products_form">

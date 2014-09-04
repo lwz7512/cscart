@@ -12,7 +12,7 @@
     {include file="common/subheader.tpl" title="Supplementary Info" target="#trip_build_products_hook"}
     <div id="trip_build_products_hook" class="in collapse">
         <!--product address-->
-        <div class="control-group {$no_hide_input_if_shared_product}">
+        <div class="control-group">
             <label for="product_description_address" class="control-label">Address:</label>
             <div class="controls">
                 <input id="product_description_address" name="product_data[address]" form="form" type="text" class="input-large" value="{$product_data.trip.address}"/>
@@ -52,18 +52,26 @@
         <div class="control-group">
             <label for="product_map_lonlat" class="control-label">Geographic Position:</label>
             <div class="controls">
-                <input id="product_map_lonlat" name="product_data[location]" form="form" type="text" class="input-medium" readonly value="{$product_data.trip.location}"/>
+                <input id="product_map_lonlat" name="product_data[location]" form="form" type="text" class="input-medium" value="{$product_data.trip.location}"/>
                 <input type="button" id="add_marker" class="btn btn-primary" value="Add Marker"/>
             </div>
         </div>
-        <!--search-->
+        <!--search by name-->
         <div class="control-group {$no_hide_input_if_shared_product}">
-            <label for="product_address_map" class="control-label">Search in Map:</label>
+            <label for="product_address_map" class="control-label">Search By Name:</label>
             <div class="controls">
                 <input id="location_search_key" form="form" type="text" class="input-medium" value=""/>
-                <input type="button" id="search_btn" class="btn btn-primary" value="Search"/>
+                <input type="button" id="search_name_btn" class="btn btn-primary" value="Search"/>
                 {*<img id="search_status" src="/images/map/loading.gif" style="display: none">*}
                 <span id="search_status" style="display: none; margin-left: 20px;">loading...</span>
+            </div>
+        </div>
+        <!--search by location-->
+        <div class="control-group {$no_hide_input_if_shared_product}">
+            <label for="location_search_location" class="control-label">Search By Location:</label>
+            <div class="controls">
+                <input id="location_search_location" form="form" type="text" class="input-medium" placeholder="longitude,latitude"/>
+                <input type="button" id="search_location_btn" class="btn btn-primary" value="Search"/>
             </div>
         </div>
         <!--map container-->
@@ -88,7 +96,7 @@
         var lat = Number(client_location.split(',')[1]);
 
         //create baidu map while switch to show this tab
-        $.ceEvent('on', 'ce.tab.show', function(data) {
+        /*$.ceEvent('on', 'ce.tab.show', function(data) {
 
             //Use Baidu Map default in China, use Google map in future...
             map = new BMap.Map("baidu_map_container");          // 创建地图实例
@@ -123,7 +131,8 @@
                 mkrTool['marker'] = marker;//save to remove
             }
 
-        });//end of open_map click
+        });//end of ce.tab.show
+        */
 
 
         $("#add_marker").click(function(){
@@ -133,11 +142,8 @@
         });//end of add marker click
 
 
-        $("#search_btn").click(search_in_map);
-
-
-        function search_in_map(){
-            var key_word = $("#address_search_key").val();
+        $("#search_name_btn").click(function (){
+            var key_word = $("#location_search_key").val();
             if(!map || !key_word) return;
 
             var local = new BMap.LocalSearch(map, {
@@ -160,7 +166,19 @@
 
             $("#search_status").show();
 
-        }
+        });
+
+        $("#search_location_btn").click(function(){
+            var location = $("#location_search_location").val();
+
+            if(location.indexOf(',')==-1) return;
+            var lon_lat = location.split(',');
+            if(!Number(lon_lat[0]) || !Number(lon_lat[1])) return;
+
+            var point = new BMap.Point(Number(lon_lat[0]), Number(lon_lat[1]));  // 创建点坐标，以景山公园为中心点
+            map.centerAndZoom(point, 14);                 // 初始化地图，设置中心点坐标和地图级别
+
+        });
 
 
     }(Tygh, Tygh.$));
