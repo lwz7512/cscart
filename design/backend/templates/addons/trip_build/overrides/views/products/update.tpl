@@ -1,3 +1,4 @@
+{* override the default product edit page, to clear some useless properties *}
 {capture name="mainbox"}
 
     {capture name="tabsbox"}
