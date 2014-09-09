@@ -192,20 +192,16 @@ function fn_init_language($params, $area = AREA)
 
     if (!empty($params['sl']) && !empty($avail_languages[$params['sl']])) {
         fn_define('CART_LANGUAGE', $params['sl']);
-        PC::debug('...', '0');
     } elseif (!fn_get_session_data('cart_language' . $area) && $_lc = fn_get_browser_language($avail_languages)) {
         fn_define('CART_LANGUAGE', $_lc);
-        PC::debug('...', '1');
     } elseif (!fn_get_session_data('cart_language' . $area) && !empty($avail_languages[$default_language])) {
         fn_define('CART_LANGUAGE', $default_language);
-        PC::debug('...', '2');
     } elseif (($_c = fn_get_session_data('cart_language' . $area)) && !empty($avail_languages[$_c])) {
         //FIXME, do not define language here for runtime switch @2014/09/03
 //        fn_define('CART_LANGUAGE', $_c);
     } else {
         reset($avail_languages);
         fn_define('CART_LANGUAGE', key($avail_languages));
-        PC::debug('...', '4');
     }
 
     // For the backend, set description language

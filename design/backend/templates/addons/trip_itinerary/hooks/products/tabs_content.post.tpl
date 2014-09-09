@@ -15,16 +15,16 @@
 
     {* itinerary title *}
     <div class="control-group">
-        <label for="trip_itinerary_title" class="control-label">{__('itinerary_title')}:</label>
+        <label for="trip_itinerary_title" class="control-label cm-required">{__('itinerary_title')}:</label>
         <div class="controls">
-            <input id="trip_itinerary_title" name="product_data[itinerary_title]" form="form" type="text" class="input-large" value="{$product_data.trip.itinerary_title}"/>
+            <input id="trip_itinerary_title" name="product_data[itinerary][title]" form="form" type="text" class="input-large" value="{$product_data.itinerary.title}"/>
         </div>
     </div>
     {* itinerary days *}
     <div class="control-group">
-        <label for="trip_itinerary_days" class="control-label">{__('itinerary_days')}:</label>
+        <label for="trip_itinerary_days" class="control-label cm-required">{__('itinerary_days')}:</label>
         <div class="controls">
-            <input id="trip_itinerary_days" name="product_data[itinerary_days]" form="form" type="text" class="input-small" value="{$product_data.trip.itinerary_days}"/>
+            <input id="trip_itinerary_days" name="product_data[itinerary][days]" form="form" type="text" class="input-small" value="{$product_data.itinerary.days}"/>
         </div>
     </div>
 
@@ -74,8 +74,8 @@
 
         var day_sequence = 0;
 
-        var one_day_it_tmpl =  '<div class="control-group">';
-            one_day_it_tmpl +=   '<label class="control-label day">{__('the_x_day')}</label>';//day label
+        var one_day_it_tmpl =  '<div class="control-group new-day">';
+            one_day_it_tmpl +=   '<label class="control-label day cm-required">{__('the_x_day')}</label>';//day label
             one_day_it_tmpl +=   '<div class="controls">';
             one_day_it_tmpl +=     '<input type="text" class="input-medium" style="width: 480px" placeholder="one day summary"/>&nbsp;';
             one_day_it_tmpl +=     '<input type="button" class="btn add-activity" value="{__('itinerary_add_activity')}"/>';
@@ -92,9 +92,9 @@
         var activity_tmpl =  '<div class="activity-set">';//activity container
 
             activity_tmpl +=   '<div class="control-group">';
-            activity_tmpl +=     '<label class="control-label">{__('activity_time')}:</label>';
+            activity_tmpl +=     '<label class="control-label cm-required">{__('activity_time')}:</label>';
             activity_tmpl +=     '<div class="controls">';
-            activity_tmpl +=       '<input orm="form" type="text" class="input-small" placeholder="HH:MM"/>';
+            activity_tmpl +=       '<input type="text" class="input-small" placeholder="HH:MM"/>';
             activity_tmpl +=     '</div>';
             activity_tmpl +=   '</div>';
 
@@ -115,12 +115,12 @@
             activity_tmpl +=   '<div class="control-group">';
             activity_tmpl +=     '<label class="control-label">{__('location')}:</label>';
             activity_tmpl +=     '<div class="controls">';
-            activity_tmpl +=       '<input orm="form" type="text" class="input-medium" placeholder="longitude,latitude"/>';
+            activity_tmpl +=       '<input type="text" class="input-medium" placeholder="longitude,latitude"/>';
             activity_tmpl +=     '</div>';
             activity_tmpl +=   '</div>';
 
             activity_tmpl +=   '<div class="control-group">';
-            activity_tmpl +=     '<label class="control-label">{__('simple_description')}:</label>';
+            activity_tmpl +=     '<label class="control-label cm-required">{__('simple_description')}:</label>';
             activity_tmpl +=     '<div class="controls">';
             activity_tmpl +=       '<textarea id="simple_activity_desc" cols="55" rows="2" class="cm-wysiwyg input-medium"></textarea>';
             activity_tmpl +=     '</div>';
@@ -140,8 +140,11 @@
         var itinerary_container_selector = "#content_trip_itinerary";
         var new_subheader_selector = "#content_trip_itinerary .subheader:last";
         var new_day_container_selector = "#content_trip_itinerary .collapse:last";
-        var new_day_label_selector = "#content_trip_itinerary .day:last";
         var add_activity_btn_selector = "#content_trip_itinerary .add-activity:last";
+
+        var new_day_label_selector = "#content_trip_itinerary .day:last";
+        var new_day_title_selector = "#content_trip_itinerary .new-day:last input[type='text']";
+
 
         $("#add_one_day").click(function(){
 
@@ -175,6 +178,12 @@
 
             });//end of add activity click
 
+            //set itinerary day field
+            $(new_day_title_selector).attr('name', 'product_data[itinerary]['+day_sequence+']');
+            //title is required
+            $(new_day_title_selector).attr('id', 'day_title_'+day_sequence);
+            $(new_day_label_selector).attr('for', 'day_title_'+day_sequence);
+
 
         });//end of add day click
 
@@ -200,17 +209,38 @@
             $("#simple_activity_desc").attr('id', 'simple_act_desc_'+day_seq+'_'+activity_seq);
             $("#details_activity_desc").attr('id', 'detail_act_desc_'+day_seq+'_'+activity_seq);
 
+
+            //add data file for new activity
+            var new_act_time_label_selector = "#"+activity_id+" .control-group:eq(0) label";
+            var new_act_time_selector = "#"+activity_id+" .controls:eq(0) input";
+
+            var new_act_type_selector = "#"+activity_id+" .controls:eq(1) select";
+            var new_act_location_selector = "#"+activity_id+" .controls:eq(2) input";
+
+            var new_act_spl_desc_selector = "#"+activity_id+" .controls:eq(3) textarea";
+
+            var new_act_dtl_desc_selector = "#"+activity_id+" .controls:eq(4) textarea";
+
+            var act_field_prefix = 'product_data[itinerary]['+day_seq+']'+'['+activity_seq+']';
+
+            $(new_act_time_selector).attr('name', act_field_prefix+'[time]');
+            $(new_act_type_selector).attr('name', act_field_prefix+'[type]');
+            $(new_act_location_selector).attr('name', act_field_prefix+'[location]');
+            $(new_act_spl_desc_selector).attr('name', act_field_prefix+'[simple_desc]');
+            $(new_act_dtl_desc_selector).attr('name', act_field_prefix+'[detail_desc]');
+
+            //the time is required
+            $(new_act_time_label_selector).attr('for', 'act_time_'+activity_id);
+            $(new_act_time_selector).attr('id', 'act_time_'+activity_id);
+
             $('#simple_act_desc_'+day_seq+'_'+activity_seq).ceEditor('run');
             $('#detail_act_desc_'+day_seq+'_'+activity_seq).ceEditor('run');
 
             if(!$("#"+jq_cntr_id).hasClass('in'))//when collapsed
                 $("#"+jq_cntr_id).collapse('show');//expand collapsed container
 
-
             scroll_to_new_activity(activity_id);
-
         }
-
 
 
         /**
