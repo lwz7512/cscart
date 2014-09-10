@@ -35,6 +35,79 @@
         </div>
     </div>
 
+    {if $product_data.itinerary.children}
+        {assign var="itinerary_days" value=$product_data.itinerary.children}
+        {assign var="zero" value=1}
+        {foreach from=$itinerary_days item="one_day"}
+            {assign var="day_sequence" value=$zero++}
+            <div class="control-group new-day">
+                <label class="control-label day cm-required"
+                        for="{'day_title_'|cat:$day_sequence}">{__('the_x_day')|replace:'x':$day_sequence}</label>
+                <div class="controls">
+                    <input type="text" class="input-medium" style="width: 480px" value="{$one_day.title}"
+                           name="{'product_data[itinerary]['|cat:$day_sequence|cat:'][title]'}"
+                           id="{'day_title_'|cat:$day_sequence}"/>
+                    &nbsp;
+                    <input type="button" class="btn add-activity" value="{__('itinerary_add_activity')}"
+                            data-target-id="{'activity_group_'|cat:$day_sequence}"
+                            data-day_sequence="{$day_sequence}"/>
+                </div>
+            </div>
+            <h4 class="subheader hand" data-toggle="collapse" data-target="{'#activity_group_'|cat:$day_sequence}">
+                {__('details')}
+                <span class="exicon-collapse"></span>
+            </h4>
+            <div class="in collapse" id="{'activity_group_'|cat:$day_sequence}">
+                {foreach from=$one_day.children item="activity"}
+                    <div class="activity-set">
+                        <div class="control-group">
+                            <label class="control-label cm-required"
+                                   for="{'act_time_activity-set_'|cat:$day_sequence|cat:'_'|cat:$activity.act_sequence}">{__('activity_time')}:</label>
+                            <div class="controls">
+                                <input type="text" class="input-small" value="{$activity.time_to_do}"
+                                       name="{'product_data[itinerary]['|cat:$day_sequence|cat:']['|cat:$activity.act_sequence|cat:'][time]'}"
+                                       id="{'act_time_activity-set_'|cat:$day_sequence|cat:'_'|cat:$activity.act_sequence}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">{__('itinerary_activity_type')}:</label>
+                            <div class="controls">
+                                <select name="{'product_data[itinerary]['|cat:$day_sequence|cat:']['|cat:$activity.act_sequence|cat:'][type]'}">
+                                    <option {if $activity.activity_type=='p'}selected="selected"{/if} value="p">Plane</option>
+                                    <option {if $activity.activity_type=='s'}selected="selected"{/if} value="s">Scenery</option>
+                                    <option {if $activity.activity_type=='h'}selected="selected"{/if} value="h">Hotel</option>
+                                    <option {if $activity.activity_type=='f'}selected="selected"{/if} value="f">Food</option>
+                                    <option {if $activity.activity_type=='o'}selected="selected"{/if} value="o">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">{__('location')}:</label>
+                            <div class="controls">
+                                <input type="text" class="input-medium" value="{$activity.location}"
+                                       name="{'product_data[itinerary]['|cat:$day_sequence|cat:']['|cat:$activity.act_sequence|cat:'][location]'}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label cm-required">{__('simple_description')}:</label>
+                            <div class="controls">
+                                <textarea id="{'simple_act_desc_'|cat:$day_sequence|cat:'_'|cat:$activity.act_sequence}" cols="55" rows="2" class="cm-wysiwyg input-medium"
+                                          name="{'product_data[itinerary]['|cat:$day_sequence|cat:']['|cat:$activity.act_sequence|cat:'][simple_desc]'}">{$activity.simple_desc}</textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">{__('description')}:</label>
+                            <div class="controls">
+                                <textarea id="{'detail_act_desc_'|cat:$day_sequence|cat:'_'|cat:$activity.act_sequence}" cols="55" rows="2" class="cm-wysiwyg input-large"
+                                          name="{'product_data[itinerary]['|cat:$day_sequence|cat:']['|cat:$activity.act_sequence|cat:'][detail_desc]'}">{$activity.detail_desc}</textarea>
+                            </div>
+                        </div>
+                    </div><!--end of activity-set-->
+                {/foreach}
+            </div>
+        {/foreach}
+    {/if}
+
 </div><!--end of form-->
 
 <script>
@@ -72,7 +145,19 @@
 
     (function(_, $) {
 
-        var day_sequence = 0;
+
+        //add action for server-rendered add-activity button
+        $("#content_trip_itinerary .add-activity").click(function(){
+            var self = $(this);
+
+            var exist_activity_set_size = $("#"+self.data('target-id')+" .activity-set").size();
+
+            add_activity_tmpl(self.data('target-id'), self.data('day_sequence'), exist_activity_set_size+1);
+        });
+
+
+
+        var day_sequence = {intval($product_data.itinerary.days)|default:0};
 
         var one_day_it_tmpl =  '<div class="control-group new-day">';
             one_day_it_tmpl +=   '<label class="control-label day cm-required">{__('the_x_day')}</label>';//day label
@@ -104,7 +189,6 @@
             activity_tmpl +=       '<select >';
             activity_tmpl +=         '<option selected="selected" value="p">Plane</option>';
             activity_tmpl +=         '<option value="s">Scenery</option>';
-            activity_tmpl +=         '<option value="h">Hotel</option>';
             activity_tmpl +=         '<option value="h">Hotel</option>';
             activity_tmpl +=         '<option value="f">Food</option>';
             activity_tmpl +=         '<option value="o">Other</option>';
@@ -179,7 +263,7 @@
             });//end of add activity click
 
             //set itinerary day field
-            $(new_day_title_selector).attr('name', 'product_data[itinerary]['+day_sequence+']');
+            $(new_day_title_selector).attr('name', 'product_data[itinerary]['+day_sequence+'][title]');
             //title is required
             $(new_day_title_selector).attr('id', 'day_title_'+day_sequence);
             $(new_day_label_selector).attr('for', 'day_title_'+day_sequence);
