@@ -2,6 +2,11 @@
 
 <style type="text/css">
 
+    .day {
+        font-size: 18px;
+        font-weight: bolder;
+    }
+
     .activity-set {
         padding: 10px;
         margin: 10px;
@@ -40,6 +45,7 @@
         {assign var="zero" value=1}
         {foreach from=$itinerary_days item="one_day"}
             {assign var="day_sequence" value=$zero++}
+            <div style="margin: 20px; width: 100%; height: 20px;"></div><!--spacer-->
             <div class="control-group new-day">
                 <label class="control-label day cm-required"
                         for="{'day_title_'|cat:$day_sequence}">{__('the_x_day')|replace:'x':$day_sequence}</label>
@@ -157,9 +163,11 @@
 
 
 
-        var day_sequence = {intval($product_data.itinerary.days)|default:0};
+        var day_sequence = {count($product_data.itinerary.children)|default:0};
 
-        var one_day_it_tmpl =  '<div class="control-group new-day">';
+        var day_spacer = '<div style="margin: 20px; width: 100%; height: 20px;"></div>';
+
+        var one_day_it_tmpl =  '<div class="control-group new-day" >';
             one_day_it_tmpl +=   '<label class="control-label day cm-required">{__('the_x_day')}</label>';//day label
             one_day_it_tmpl +=   '<div class="controls">';
             one_day_it_tmpl +=     '<input type="text" class="input-medium" style="width: 480px" placeholder="one day summary"/>&nbsp;';
@@ -235,7 +243,7 @@
             day_sequence ++;
 
             //add one day container
-            $(itinerary_container_selector).append(one_day_it_tmpl, sub_header_tmpl, collapse_container_tmpl);
+            $(itinerary_container_selector).append(day_spacer, one_day_it_tmpl, sub_header_tmpl, collapse_container_tmpl);
 
             //set day sequence label
             var the_x_day = '{__('the_x_day')}'.replace('x', day_sequence.toString());
@@ -341,8 +349,6 @@
             },'slow');
 
         }
-
-
 
 
     }(Tygh, Tygh.$));

@@ -51,12 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				} elseif (in_array($p_id, $messages_exist)) {
 					$prop = fn_get_message_prop($p_id);
 					db_query("UPDATE ?:faq_messages SET ?u WHERE message_id = ?i", $data, $p_id);
+
+                    //FIXME, add undefined test @2014/07/02
+                    //move the data status here @2014/09/11
+					$data['status'] = isset($data['status']) ? $data['status'] : 'A';
+
 					if ($prop['status'] == 'D' && $data['status'] == 'A' && $prop['type'] == 'A') {
 						$faq_id = db_get_field("SELECT faq_id FROM ?:faq_messages WHERE message_id = ?i", $p_id);
 						fn_send_answer_email($data, $faq_id);
 					}
-                    //FIXME, add undefined test @2014/07/02
-					$data['status'] = isset($data['status']) ? $data['status'] : 'A';
 					fn_check_to_aprove_faq($data['status'], $p_id);
 				}
 			}
