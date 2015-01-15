@@ -1,1 +1,0 @@
-{*{script src="js/lib/scrollto/jquery-scrollto.js"}*}

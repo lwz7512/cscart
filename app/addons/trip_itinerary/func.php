@@ -116,7 +116,7 @@ function fn_trip_itinerary_get_product_data_post(&$product_data, $auth, $preview
 
     $itinerary_data = db_get_row("SELECT u_id as it_id, it_title as title, it_time_in_day as days FROM ?:itinerary_product WHERE p_id = ?i", $product_data['product_id']);
 
-    if(!$itinerary_data) return;//no itinerary data
+    if(empty($itinerary_data)) return;//no itinerary data
 
     $itinerary_days = db_get_array("SELECT day_title as title, day_sequence as seq FROM ?:itinerary_day WHERE it_id =?i ORDER BY day_sequence", $itinerary_data['it_id']);
 
@@ -134,7 +134,6 @@ function fn_trip_itinerary_get_product_data_post(&$product_data, $auth, $preview
 
     $product_data['itinerary'] = $itinerary_data;//save the itinerary data to client use
 
-    PC::debug($itinerary_data, 'itinerary');
 }
 
 /**
